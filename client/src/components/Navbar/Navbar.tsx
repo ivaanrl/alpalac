@@ -1,61 +1,61 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import allActions from "../../actions";
-import { StoreState } from "../../reducers";
-import clsx from "clsx";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import allActions from '../../actions';
+import { StoreState } from '../../reducers';
+import clsx from 'clsx';
 import {
   fade,
   makeStyles,
   Theme,
   createStyles,
-} from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import useWindowDimensions from "../../shared/useWindowsDimensions";
-import Button from "@material-ui/core/Button";
-import Badge from "@material-ui/core/Badge";
+} from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import useWindowDimensions from '../../shared/useWindowsDimensions';
+import Button from '@material-ui/core/Button';
+import Badge from '@material-ui/core/Badge';
 
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import KitchenIcon from "@material-ui/icons/Kitchen";
-import AddIcon from "@material-ui/icons/Add";
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import KitchenIcon from '@material-ui/icons/Kitchen';
+import AddIcon from '@material-ui/icons/Add';
 
-import Modal from "@material-ui/core/Modal";
-import FormControl from "@material-ui/core/FormControl";
-import GoogleButton from "react-google-button";
+import Modal from '@material-ui/core/Modal';
+import FormControl from '@material-ui/core/FormControl';
+import GoogleButton from 'react-google-button';
 //import FacebookLogin from "react-facebook-login";
 
-import axios from "../../axios";
-import { NavLink } from "react-router-dom";
-import ShoppingCartPopper from "./shoppingCartPopper/ShoppingCartPopper";
-import { useLocation } from "react-router-dom";
+import axios from '../../axios';
+import { NavLink } from 'react-router-dom';
+import ShoppingCartPopper from './shoppingCartPopper/ShoppingCartPopper';
+import { useLocation } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: "flex",
-      maxWidth: "100vw",
+      display: 'flex',
+      maxWidth: '100vw',
     },
     logoNavbar: {
-      [theme.breakpoints.down("md")]: {
-        display: "none",
+      [theme.breakpoints.down('md')]: {
+        display: 'none',
       },
     },
     appBar: {
-      transition: theme.transitions.create(["margin", "width"], {
+      transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) =>
     appBarShift: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
-      transition: theme.transitions.create(["margin", "width"], {
+      transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
     },
     hide: {
-      display: "none",
+      display: 'none',
     },
     drawer: {
       width: 0,
@@ -82,137 +82,137 @@ const useStyles = makeStyles((theme: Theme) =>
       width: drawerWidth,
     },
     drawerHeader: {
-      display: "flex",
-      alignItems: "center",
+      display: 'flex',
+      alignItems: 'center',
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
-      justifyContent: "flex-end",
+      justifyContent: 'flex-end',
     },
     search: {
-      position: "relative",
+      position: 'relative',
       borderRadius: theme.shape.borderRadius,
       backgroundColor: fade(theme.palette.common.white, 0.15),
-      "&:hover": {
+      '&:hover': {
         backgroundColor: fade(theme.palette.common.white, 0.25),
       },
       marginRight: theme.spacing(2),
-      width: "100%",
+      width: '100%',
       flex: 1,
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     inputRoot: {
-      color: "inherit",
-      width: "100%",
-      [theme.breakpoints.up("md")]: {
-        marginLeft: "15px",
+      color: 'inherit',
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        marginLeft: '15px',
       },
     },
     inputInput: {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("md")]: {
-        width: "80%",
-        marginLeft: "15px",
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '80%',
+        marginLeft: '15px',
       },
     },
     logo: {
-      width: "100%",
-      marginLeft: "15px",
-      textAlign: "left",
-      fontSize: "20px",
-      fontWeight: "bold",
+      width: '100%',
+      marginLeft: '15px',
+      textAlign: 'left',
+      fontSize: '20px',
+      fontWeight: 'bold',
     },
     rightNavbar: {
-      position: "absolute",
+      position: 'absolute',
       right: 0,
-      marginRight: "40px",
-      display: "flex",
-      flexDirection: "row",
-      flexWrap: "nowrap",
+      marginRight: '40px',
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
       flex: 1,
-      width: "60%",
-      justifyContent: "flex-end",
-      [theme.breakpoints.down("md")]: {
-        width: "80%",
+      width: '60%',
+      justifyContent: 'flex-end',
+      [theme.breakpoints.down('md')]: {
+        width: '80%',
       },
     },
     account: {},
     shoppingCartNavBar: {
-      marginRight: "15px",
+      marginRight: '15px',
     },
     categories: {
-      textAlign: "left",
-      marginLeft: "15px",
-      fontWeight: "bolder",
-      fontSize: "20px",
+      textAlign: 'left',
+      marginLeft: '15px',
+      fontWeight: 'bolder',
+      fontSize: '20px',
     },
     paper: {
-      position: "absolute",
+      position: 'absolute',
       width: 400,
       backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
+      border: '2px solid #000',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
     },
     loginFormContainer: {
-      width: "50%",
-      maxWidth: "450px",
-      margin: "auto",
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translateX(-50%) translateY(-50%)",
+      width: '50%',
+      maxWidth: '450px',
+      margin: 'auto',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translateX(-50%) translateY(-50%)',
 
-      borderRadius: "10px",
+      borderRadius: '10px',
     },
     authForm: {
-      backgroundColor: "white",
-      width: "100%",
-      height: "500px",
-      borderRadius: "10px",
+      backgroundColor: 'white',
+      width: '100%',
+      height: '500px',
+      borderRadius: '10px',
     },
     signInContainer: {
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "space-around",
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'space-around',
     },
     signInTitle: {
-      fontSize: "24px",
-      fontWeight: "bold",
-      color: "black",
+      fontSize: '24px',
+      fontWeight: 'bold',
+      color: 'black',
     },
     switchAuth: {
-      color: "grey",
-      fontSize: "16px",
+      color: 'grey',
+      fontSize: '16px',
     },
     switchAuthLink: {
-      color: "grey",
-      fontWeight: "bold",
-      textDecoration: "none",
-      "&:hover": {
-        textDecoration: "underline",
+      color: 'grey',
+      fontWeight: 'bold',
+      textDecoration: 'none',
+      '&:hover': {
+        textDecoration: 'underline',
       },
     },
     navLink: {
-      display: "flex",
-      flexDirection: "row",
-      color: "black",
-      textDecoration: "none",
+      display: 'flex',
+      flexDirection: 'row',
+      color: 'black',
+      textDecoration: 'none',
     },
   })
 );
@@ -221,7 +221,7 @@ const Navbar = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [disabled, setDisabled] = useState("");
+  const [disabled, setDisabled] = useState('');
 
   const [
     popperAnchorEl,
@@ -271,7 +271,7 @@ const Navbar = () => {
     const check = setInterval(() => {
       if (!popup) {
         clearInterval(check);
-        setDisabled("");
+        setDisabled('');
       }
     }, 1000);
   };
@@ -282,14 +282,14 @@ const Navbar = () => {
         id: string;
         firstName: string;
         lastName: string;
-      }>("api/current_user");
+      }>('api/current_user');
       console.log(user);
       dispatch(allActions.login(user.data));
     };
     getUser();
   }, []);
 
-  let location = useLocation().pathname.split("/")[1];
+  let location = useLocation().pathname.split('/')[1];
 
   let authButtons = (
     <Button
@@ -302,11 +302,13 @@ const Navbar = () => {
     </Button>
   );
 
-  if (user.firstName !== "" && user.lastName !== "") {
+  if (user.firstName !== '' && user.lastName !== '') {
     authButtons = (
-      <Button variant="outlined" color="secondary" disableElevation>
-        {user.firstName + " " + user.lastName}
-      </Button>
+      <a href="/api/logout">
+        <Button variant="contained" color="secondary" disableElevation>
+          Cerrar Sesión
+        </Button>
+      </a>
     );
   }
 
@@ -324,7 +326,7 @@ const Navbar = () => {
 
   const chooseNavItem = (text: string) => {
     switch (text) {
-      case "Carrito":
+      case 'Carrito':
         return (
           <NavLink to="/shoppingCart" className={classes.navLink}>
             <ListItemIcon>
@@ -333,7 +335,7 @@ const Navbar = () => {
             <ListItemText primary={text} />
           </NavLink>
         );
-      case "Agregar/Editar":
+      case 'Agregar/Editar':
         return (
           <NavLink to="/editItems" className={classes.navLink}>
             <ListItemIcon>
@@ -391,7 +393,7 @@ const Navbar = () => {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
-                inputProps={{ "aria-label": "search" }}
+                inputProps={{ 'aria-label': 'search' }}
               />
             </div>
             <div className={classes.account}>
@@ -400,7 +402,7 @@ const Navbar = () => {
                 anchorEl={popperAnchorEl}
                 handleShoppingCartIconClick={handleShoppingCartIconClick}
               />
-              {location === "checkout" ? null : (
+              {location === 'checkout' ? null : (
                 <Button
                   variant="contained"
                   color="primary"
@@ -411,7 +413,7 @@ const Navbar = () => {
                   <Badge
                     badgeContent={shoppingCartCount}
                     color="error"
-                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   >
                     <ShoppingCartIcon color="secondary" />
                   </Badge>
@@ -452,7 +454,7 @@ const Navbar = () => {
           <List>
             <div className={classes.categories}>Categorías</div>
 
-            {["Quesos", "Agregar/Editar", "No sé", "No séx2"].map(
+            {['Quesos', 'Agregar/Editar', 'No sé', 'No séx2'].map(
               (text, index) => (
                 <ListItem button key={text}>
                   {chooseNavItem(text)}
@@ -462,7 +464,7 @@ const Navbar = () => {
           </List>
           <Divider />
           <List>
-            {["Carrito"].map((text, index) => (
+            {['Carrito'].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
                   <ShoppingCartIcon />
@@ -500,7 +502,7 @@ const Navbar = () => {
             <List>
               <div className={classes.categories}>Categorías</div>
 
-              {["Quesos", "Agregar/Editar", "No sé", "No séx2"].map(
+              {['Quesos', 'Agregar/Editar', 'No sé', 'No séx2'].map(
                 (text, index) => (
                   <ListItem button key={text}>
                     {chooseNavItem(text)}
@@ -510,7 +512,7 @@ const Navbar = () => {
             </List>
             <Divider />
             <List>
-              {["Carrito"].map((text, index) => (
+              {['Carrito'].map((text, index) => (
                 <ListItem button key={text}>
                   <ListItemIcon>
                     <ShoppingCartIcon />

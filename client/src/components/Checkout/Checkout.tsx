@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import ShoppingCartFull from "./ShoppingCartFull/ShoppingCartFull";
-import CheckoutForm from "./ShoppingCartForm/CheckoutForm";
-import * as Yup from "yup";
-import { Formik, FormikHelpers } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import allActions from "../../actions";
-import { StoreState } from "../../reducers";
-import ReviewPage from "./ReviewPage/ReviewPage";
-import axios from "../../axios";
+import React, { useState } from 'react';
+import ShoppingCartFull from './ShoppingCartFull/ShoppingCartFull';
+import CheckoutForm from './ShoppingCartForm/CheckoutForm';
+import * as Yup from 'yup';
+import { Formik, FormikHelpers } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import allActions from '../../actions';
+import { StoreState } from '../../reducers';
+import ReviewPage from './ReviewPage/ReviewPage';
+import axios from '../../axios';
 
 const checkoutFormValidationSchhema = Yup.object({
   name: Yup.string()
-    .required("Debe ingresar un nombre")
-    .min(2, "Tu nombre debe ser de 2 o más caracteres"),
+    .required('Debe ingresar un nombre')
+    .min(2, 'Tu nombre debe ser de 2 o más caracteres'),
   lastName: Yup.string()
-    .required("Debe ingresar un apellido")
-    .min(2, "Tu apellido debe ser de 2 o más caracteres"),
-  street: Yup.string().required("Debe ingresar una caller"),
-  number: Yup.string().required("Debe ingresar altura"),
+    .required('Debe ingresar un apellido')
+    .min(2, 'Tu apellido debe ser de 2 o más caracteres'),
+  street: Yup.string().required('Debe ingresar una caller'),
+  number: Yup.string().required('Debe ingresar altura'),
 });
 
 export interface checkoutFormValues {
@@ -38,8 +38,8 @@ const Checkout = () => {
   const [page, setPage] = useState(1);
 
   const initialCheckOutFormValues: checkoutFormValues = {
-    name: "user.firstName",
-    lastName: "user.lastName",
+    name: user.firstName,
+    lastName: user.lastName,
     street: user.street,
     number: user.number,
   };
@@ -58,7 +58,7 @@ const Checkout = () => {
   };
 
   const confirmPurchase = async () => {
-    const axiosResponse = await axios.post("/orders/new", {
+    const axiosResponse = await axios.post('/orders/new', {
       user,
       shoppingCart: shoppingCartItems,
     });

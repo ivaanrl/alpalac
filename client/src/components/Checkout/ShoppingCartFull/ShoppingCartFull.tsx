@@ -1,42 +1,45 @@
-import React, { useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { StoreState } from "../../../reducers";
+import React, { useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { StoreState } from '../../../reducers';
 import {
   makeStyles,
   Theme,
   createStyles,
   Container,
   Button,
-} from "@material-ui/core";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import allActions from "../../../actions";
+} from '@material-ui/core';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import allActions from '../../../actions';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     mainContainer: {
-      position: "relative",
-      marginTop: "30px",
+      position: 'relative',
+      marginTop: '30px',
     },
     itemContainer: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-around",
-      border: "1px solid #B0B0B0",
-      borderRadius: "5px",
-      marginBottom: "10px",
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      border: '1px solid #B0B0B0',
+      borderRadius: '5px',
+      marginBottom: '10px',
     },
     price: {},
     name: {},
     image: {
-      maxWidth: "70px",
+      maxWidth: '70px',
     },
     buttonsContainer: {
-      position: "absolute",
+      position: 'absolute',
       right: 0,
     },
+    backButton: {
+      marginRight: '25px',
+    },
     continueShoppingButton: {
-      marginRight: "25px",
+      marginRight: '25px',
     },
   })
 );
@@ -72,7 +75,7 @@ const ShoppingCartFull = (props: shoppingCartFullProps) => {
   };
 
   useEffect(() => {
-    console.log("a");
+    console.log('a');
   }, [shoppingCartItems]);
 
   return (
@@ -104,11 +107,16 @@ const ShoppingCartFull = (props: shoppingCartFullProps) => {
         <Button
           variant="contained"
           color="secondary"
-          className={classes.continueShoppingButton}
+          className={classes.backButton}
         >
           Volver
         </Button>
-        <Button variant="contained" color="primary" onClick={nextPage}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={nextPage}
+          className={classes.continueShoppingButton}
+        >
           Continuar
         </Button>
       </div>

@@ -18,13 +18,14 @@ module.exports = (app) => {
         lastName: req.user.dataValues.lastName,
       };
       //req.user = user;
-      //res.redirect("http://localhost:3000/category/quesos");
-      res.redirect('/api/current_user');
+      res.redirect('http://localhost:3000/');
+      //res.redirect('/api/current_user');
     }
   );
 
   app.get('/api/logout', (req, res) => {
     req.logout();
+    res.redirect('http://localhost:3000/');
   });
 
   app.get('/api/current_user', (req, res) => {
