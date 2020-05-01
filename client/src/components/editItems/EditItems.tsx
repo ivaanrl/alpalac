@@ -16,13 +16,22 @@ import * as Yup from 'yup';
 import axios from '../../axios';
 import { itemInterface } from '../Items/Item/Item';
 import { useLocation } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    tabContainer: {
+      marginBottom: '15px',
+    },
     itemsContainer: {
       width: '65%',
       margin: 'auto',
       position: 'relative',
+      marginTop: '35px',
     },
     titles: {
       display: 'flex',
@@ -32,17 +41,29 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
     },
     name: {
-      flexBasis: '25%',
+      flexBasis: '15%',
+      textAlign: 'left',
     },
     priceInput: {
-      width: '20%',
+      flexBasis: '15%',
+      textAlign: 'center',
+      marginLeft: '10px',
+      marginRight: '20px',
     },
     quantityInput: {
-      width: '13%',
+      flexBasis: '15%',
+      textAlign: 'center',
+      marginLeft: '10px',
     },
     items: {
       maxHeight: '700px',
       overflowY: 'scroll',
+      scrollbarWidth: 'none',
+      msOverflowStyle: 'none',
+      '&::-webkit-scrollbar': {
+        width: '0%',
+        background: 'transparent',
+      },
     },
     formButtons: {
       position: 'absolute',
@@ -75,6 +96,39 @@ export interface addItemFormValues {
   fullWeightPrice: string;
 }
 
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: any;
+  value: any;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: any) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
+
 const EditItems = () => {
   const classes = useStyles();
   const [openModal, setOpenModal] = useState(false);
@@ -93,16 +147,32 @@ const EditItems = () => {
 
   const [modifiedItems, setModifiedItems] = useState<itemInterface[]>([]);
 
+  const [tabValue, setTabValue] = useState(0);
+
+  const categories = [
+    'quesos',
+    'fiambres',
+    'pizzas',
+    'item 1',
+    'item 2',
+    'item 3',
+  ];
+
+  const [category, setCategory] = useState('quesos');
+
+  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    const cat = categories[newValue];
+    setCategory(cat);
+    setTabValue(newValue);
+  };
+
   useEffect(() => {
-    const category = location.pathname.split('/')[2];
-    console.log(location);
-    console.log('aaa');
     (async function getItemsByCategory() {
-      const items = await axios.get<itemInterface[]>('/items/' + 'quesos');
+      const items = await axios.get<itemInterface[]>('/items/' + category);
       setItems(items.data);
       setModifiedItems(items.data);
     })();
-  }, [location]);
+  }, [category]);
 
   const modifyPrice = (index: number, newPrice: number) => {
     modifiedItems[index].price = newPrice;
@@ -114,6 +184,11 @@ const EditItems = () => {
     setModifiedItems(modifiedItems);
   };
 
+  const modifyFullWeightPrice = (index: number, newPrice: number) => {
+    modifiedItems[index].fullWeightPrice = newPrice.toString();
+    setModifiedItems(modifiedItems);
+  };
+
   const sendModifiedItems = async () => {
     const modifiedItemsResponse = await axios.post(
       '/items/editItems',
@@ -122,7 +197,6 @@ const EditItems = () => {
 
     if (modifiedItemsResponse.status === 201) {
       const items = await axios.get<itemInterface[]>('/items/' + 'quesos');
-      console.log(items.data);
       setItems(items.data);
       setModifiedItems(items.data);
     }
@@ -148,14 +222,40 @@ const EditItems = () => {
   return (
     <React.Fragment>
       <div className={classes.itemsContainer}>
+        <AppBar
+          position="static"
+          color="default"
+          elevation={0}
+          className={classes.tabContainer}
+        >
+          <Tabs
+            value={tabValue}
+            onChange={handleTabChange}
+            indicatorColor="primary"
+            textColor="primary"
+            //variant="scrollable"
+            centered
+            scrollButtons="auto"
+            aria-label="scrollable auto tabs example"
+          >
+            {categories.map((category, index) => {
+              return (
+                <Tab
+                  label={category[0].toUpperCase() + category.slice(1)}
+                  {...a11yProps(index)}
+                />
+              );
+            })}
+          </Tabs>
+        </AppBar>
         <div className={classes.titles}>
           <div className={classes.name}>Nombre</div>
-          <div>Precio</div>
+          <div>Precio/Kg</div>
           <div className={classes.priceInput}>Nuevo Precio</div>
           <div>Cantidad</div>
-          <div className={classes.quantityInput}>
-            Nueva<br></br> cantidad
-          </div>
+          <div className={classes.quantityInput}>Nueva cantidad</div>
+          <div>Precio orma</div>
+          <div className={classes.priceInput}>Nuevo precio orma</div>
         </div>
         <div className={classes.items}>
           {items.map((item, index) => {
@@ -164,11 +264,13 @@ const EditItems = () => {
                 name={item.name}
                 price={item.price}
                 quantity={item.quantity}
+                fullWeightPrice={item.fullWeightPrice}
                 id={item.id}
                 index={index}
                 key={item.id}
                 modifyItemPrice={modifyPrice}
                 modifyItemQuantity={modifyQuantity}
+                modifyFullWeightPrice={modifyFullWeightPrice}
               />
             );
           })}

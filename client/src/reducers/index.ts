@@ -11,6 +11,7 @@ export interface StoreState {
     street: string;
     number: string;
     role: string;
+    phoneNumber: string;
   };
   form: FormStateMap;
   shoppingCart: { shoppingCart: shoppingCartArrayInterface };

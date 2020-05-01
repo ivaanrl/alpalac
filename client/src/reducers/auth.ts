@@ -8,6 +8,7 @@ export const user = (
     street: string;
     number: string;
     role: string;
+    phoneNumber: string;
   } = {
     id: '',
     firstName: '',
@@ -15,6 +16,7 @@ export const user = (
     street: '',
     number: '',
     role: '',
+    phoneNumber: '',
   },
   action: {
     type: ActionTypes;
@@ -25,6 +27,7 @@ export const user = (
       street: string;
       number: string;
       role: string;
+      phoneNumber: string;
     };
   }
 ) => {
@@ -41,6 +44,7 @@ export const user = (
         street: '',
         number: '',
         role: '',
+        phoneNumber: '',
       };
     }
     case ActionTypes.addUserInfo: {

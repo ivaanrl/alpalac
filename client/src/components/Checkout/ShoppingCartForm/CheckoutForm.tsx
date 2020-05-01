@@ -1,40 +1,41 @@
-import React, { SyntheticEvent } from "react";
+import React, { SyntheticEvent } from 'react';
 import {
   TextField,
   Button,
   createStyles,
   makeStyles,
   Theme,
-} from "@material-ui/core";
-import { FormikProps } from "formik";
+} from '@material-ui/core';
+import { FormikProps } from 'formik';
 
 export interface FormValues {
   name: string;
   lastName: string;
   street: string;
   number: string;
+  phoneNumber: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     checkoutForm: {
-      marginTop: "3%",
-      margin: "auto",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "space-around",
-      minHeight: "50vh",
-      maxWidth: "40%",
-      padding: "20px",
+      marginTop: '3%',
+      margin: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      minHeight: '50vh',
+      maxWidth: '40%',
+      padding: '20px',
       border: `1px solid ${theme.palette.primary.main}`,
-      borderRadius: "6px",
+      borderRadius: '6px',
     },
     title: {
-      margin: "auto",
-      marginTop: "12%",
-      fontSize: "24px",
-      fontWeight: "bold",
+      margin: 'auto',
+      marginTop: '12%',
+      fontSize: '24px',
+      fontWeight: 'bold',
     },
   })
 );
@@ -43,7 +44,7 @@ const CheckoutForm = (props: FormikProps<FormValues>) => {
   const classes = useStyles();
 
   const {
-    values: { name, lastName, street, number },
+    values: { name, lastName, street, number, phoneNumber },
     errors,
     touched,
     handleSubmit,
@@ -66,10 +67,10 @@ const CheckoutForm = (props: FormikProps<FormValues>) => {
           id="name"
           name="name"
           label="Nombre"
-          helperText={touched.name ? errors.name : ""}
+          helperText={touched.name ? errors.name : ''}
           error={touched.name && Boolean(errors.name)}
           value={name}
-          onChange={change.bind(null, "name")}
+          onChange={change.bind(null, 'name')}
           fullWidth
           disabled
         />
@@ -78,10 +79,10 @@ const CheckoutForm = (props: FormikProps<FormValues>) => {
           id="lastName"
           name="lastName"
           label="Apellido"
-          helperText={touched.lastName ? errors.lastName : ""}
+          helperText={touched.lastName ? errors.lastName : ''}
           error={touched.lastName && Boolean(errors.lastName)}
           value={lastName}
-          onChange={change.bind(null, "lastName")}
+          onChange={change.bind(null, 'lastName')}
           fullWidth
           disabled
         />
@@ -90,10 +91,10 @@ const CheckoutForm = (props: FormikProps<FormValues>) => {
           id="street"
           name="street"
           label="Calle"
-          helperText={touched.street ? errors.street : ""}
+          helperText={touched.street ? errors.street : ''}
           error={touched.street && Boolean(errors.street)}
           value={street}
-          onChange={change.bind(null, "street")}
+          onChange={change.bind(null, 'street')}
           fullWidth
         />
 
@@ -101,10 +102,22 @@ const CheckoutForm = (props: FormikProps<FormValues>) => {
           id="number"
           name="number"
           label="Altura"
-          helperText={touched.number ? errors.number : ""}
+          helperText={touched.number ? errors.number : ''}
           error={touched.number && Boolean(errors.number)}
           value={number}
-          onChange={change.bind(null, "number")}
+          onChange={change.bind(null, 'number')}
+          fullWidth
+        />
+
+        <TextField
+          id="phoneNumber"
+          name="phoneNumber"
+          label="Número de Teléfono"
+          type="number"
+          helperText={touched.phoneNumber ? errors.phoneNumber : ''}
+          error={touched.phoneNumber && Boolean(errors.phoneNumber)}
+          value={phoneNumber}
+          onChange={change.bind(null, 'phoneNumber')}
           fullWidth
         />
 

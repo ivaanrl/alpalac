@@ -25,11 +25,22 @@ const useStyles = makeStyles((theme: Theme) =>
       border: '1px solid #B0B0B0',
       borderRadius: '5px',
       marginBottom: '10px',
+      padding: '5px',
     },
-    price: {},
-    name: {},
+    price: {
+      flexBasis: '15%',
+      textAlign: 'left',
+      fontWeight: 'bolder',
+    },
+    name: {
+      fontWeight: 'bold',
+      flexBasis: '40%',
+      textAlign: 'left',
+    },
     image: {
       maxWidth: '70px',
+      flexBasis: '15%',
+      borderRadius: '5px',
     },
     buttonsContainer: {
       position: 'absolute',

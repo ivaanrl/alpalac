@@ -81,6 +81,7 @@ const editItem = async (item) => {
     if (itemToEdit) {
       itemToEdit.price = item.price;
       itemToEdit.quantity = item.quantity;
+      itemToEdit.fullWeightPrice = item.fullWeightPrice;
       await itemToEdit.save();
     }
   } catch (error) {

@@ -1,13 +1,13 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../reducers";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { StoreState } from '../../../reducers';
 import {
   Container,
   makeStyles,
   Theme,
   createStyles,
   Button,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 export interface reviewPageProps {
   confirmPurchase: () => void;
@@ -16,33 +16,72 @@ export interface reviewPageProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     mainContainer: {
-      position: "relative",
-      marginTop: "30px",
+      position: 'relative',
+      marginTop: '30px',
     },
     itemsContainer: {
-      maxHeight: "60vh",
-      overflowY: "scroll",
+      maxHeight: '60vh',
+      overflowY: 'scroll',
     },
     itemContainer: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-around",
-      border: "1px solid #B0B0B0",
-      borderRadius: "5px",
-      marginBottom: "10px",
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      border: '1px solid #B0B0B0',
+      borderRadius: '5px',
+      marginBottom: '10px',
+      padding: '5px',
     },
-    price: {},
-    name: {},
+    userInfoContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      width: '35%',
+      margin: 'auto',
+      marginTop: '30px',
+      marginBottom: '45px',
+      border: `1px solid ${theme.palette.primary.main}`,
+      borderRadius: '5px',
+    },
+    userInfo: {
+      width: '100%',
+      flexBasis: '100%',
+      textAlign: 'center',
+      fontSize: '18px',
+      margin: '15px',
+    },
+    price: {
+      flexBasis: '15%',
+      textAlign: 'left',
+      fontWeight: 'bolder',
+    },
+    name: {
+      fontWeight: 'bold',
+      flexBasis: '40%',
+      textAlign: 'left',
+    },
     image: {
-      maxWidth: "70px",
+      maxWidth: '70px',
+      flexBasis: '15%',
+      borderRadius: '5px',
+    },
+    totalPriceDisplay: {
+      fontSize: '20px',
+      border: `1px solid ${theme.palette.primary.main}`,
+      borderRadius: '5px',
+      padding: '7px',
+      margin: '15px',
+      textAlign: 'center',
+      fontWeight: 'bolder',
     },
     buttonsContainer: {
-      position: "absolute",
+      position: 'absolute',
       right: 0,
     },
     continueShoppingButton: {
-      marginRight: "25px",
+      marginRight: '25px',
     },
   })
 );
@@ -66,11 +105,19 @@ const ReviewPage = (props: reviewPageProps) => {
 
   return (
     <Container maxWidth="lg">
-      <div>
-        {user.firstName} {user.lastName}
-      </div>
-      <div>
-        {user.street} {user.number}
+      <div className={classes.userInfoContainer}>
+        <div className={classes.userInfo}>
+          <strong>Nombre:</strong>
+          {user.firstName} {user.lastName}
+        </div>
+        <div className={classes.userInfo}>
+          <strong>Dirección:</strong>
+          {user.street} {user.number}
+        </div>
+        <div className={classes.userInfo}>
+          <strong>Número de teléfono:</strong>
+          {user.phoneNumber}{' '}
+        </div>
       </div>
       <div className={classes.itemsContainer}>
         {shoppingCartItems.map((item, index) => {
@@ -87,7 +134,9 @@ const ReviewPage = (props: reviewPageProps) => {
           );
         })}
       </div>
-      <div>Precio total: {getTotalPrice()}</div>
+      <div className={classes.totalPriceDisplay}>
+        Precio total APROXIMADO: ${getTotalPrice()}
+      </div>
       <Button color="secondary" variant="contained">
         Volver
       </Button>

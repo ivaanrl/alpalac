@@ -18,7 +18,11 @@ export const logout = () => {
   };
 };
 
-export const addUserInfo = (payload: { street: string; number: string }) => {
+export const addUserInfo = (payload: {
+  street: string;
+  number: string;
+  phoneNumber: string;
+}) => {
   return {
     type: ActionTypes.addUserInfo,
     payload,

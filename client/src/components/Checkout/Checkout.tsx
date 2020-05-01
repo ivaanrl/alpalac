@@ -16,9 +16,13 @@ const checkoutFormValidationSchhema = Yup.object({
     .min(2, 'Tu nombre debe ser de 2 o más caracteres'),
   lastName: Yup.string()
     .required('Debe ingresar un apellido')
-    .min(2, 'Tu apellido debe ser de 2 o más caracteres'),
-  street: Yup.string().required('Debe ingresar una caller'),
-  number: Yup.string().required('Debe ingresar altura'),
+    .min(2, 'Tu apellido debe ser de 2 o más caracteres.'),
+  street: Yup.string().required('Debe ingresar una calle.'),
+  number: Yup.string().required('Debe ingresar altura.'),
+  phoneNumber: Yup.string()
+    .required('Debe ingresar un número de teléfono.')
+    .min(10, 'Ingrese un número de teléfono válido.')
+    .max(10, 'Ingrese un número de teléfono válido.'),
 });
 
 export interface checkoutFormValues {
@@ -26,6 +30,7 @@ export interface checkoutFormValues {
   lastName: string;
   street: string;
   number: string;
+  phoneNumber: string;
 }
 
 const Checkout = () => {
@@ -44,6 +49,7 @@ const Checkout = () => {
     lastName: user.lastName,
     street: user.street,
     number: user.number,
+    phoneNumber: 'user.phoneNumber',
   };
 
   let pageShown;

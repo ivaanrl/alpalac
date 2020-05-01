@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   FormControl,
   InputLabel,
@@ -6,7 +6,7 @@ import {
   makeStyles,
   Theme,
   createStyles,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 export interface item {
   name: string;
@@ -14,40 +14,43 @@ export interface item {
   id: string | undefined;
   quantity: number;
   index: number;
+  fullWeightPrice: string | undefined;
   modifyItemPrice: (index: number, newPrice: number) => void;
   modifyItemQuantity: (index: number, newQuantity: number) => void;
+  modifyFullWeightPrice: (index: number, newPrice: number) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     itemContainer: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "flex-end",
-      justifyContent: "space-around",
-      paddingBottom: "8px",
-      borderBottom: "1px solid #C0C0C0",
-      borderRadius: "5px",
-      borderRight: "1px solid #edece8",
-      borderLeft: "1px solid #edece8",
-      margin: "7px",
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      justifyContent: 'space-around',
+      paddingBottom: '8px',
+      borderBottom: '1px solid #C0C0C0',
+      borderRadius: '5px',
+      borderRight: '1px solid #edece8',
+      borderLeft: '1px solid #edece8',
+      margin: '7px',
     },
     itemText: {
-      marginBottom: "7px",
-      width: "10%",
+      marginBottom: '7px',
+      width: '10%',
     },
     item: {
-      fontSize: "16px",
-      fontWeight: "bold",
+      fontSize: '16px',
+      fontWeight: 'bold',
     },
     itemName: {
-      flexBasis: "25%",
+      flexBasis: '15%',
+      textAlign: 'left',
     },
-    Price: {
-      width: "20%",
+    price: {
+      flexBasis: '15%',
     },
     quantity: {
-      width: "13%",
+      width: '13%',
     },
   })
 );
@@ -60,8 +63,10 @@ const Item = (props: item) => {
     price,
     quantity,
     index,
+    fullWeightPrice,
     modifyItemPrice,
     modifyItemQuantity,
+    modifyFullWeightPrice,
   } = props;
 
   const handlePriceChange = (
@@ -76,17 +81,23 @@ const Item = (props: item) => {
     modifyItemQuantity(index, parseInt(e.target.value, 10));
   };
 
+  const handleFullWeightPriceChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    modifyFullWeightPrice(index, parseInt(e.target.value, 10));
+  };
+
   return (
     <div className={classes.itemContainer}>
       <div
         className={
-          classes.itemText + " " + classes.item + " " + classes.itemName
+          classes.itemText + ' ' + classes.item + ' ' + classes.itemName
         }
       >
         {name}
       </div>
-      <div className={classes.itemText + " " + classes.item}>{price}</div>
-      <FormControl className={classes.Price}>
+      <div className={classes.itemText + ' ' + classes.item}>{price}</div>
+      <FormControl className={classes.price}>
         <InputLabel htmlFor={id}>Nuevo Precio</InputLabel>
         <Input
           id={`${id}-${price}`}
@@ -96,7 +107,7 @@ const Item = (props: item) => {
           onChange={handlePriceChange}
         />
       </FormControl>
-      <div className={classes.itemText + " " + classes.item}>{quantity}</div>
+      <div className={classes.itemText + ' ' + classes.item}>{quantity}</div>
       <FormControl className={classes.quantity}>
         <InputLabel htmlFor={`${id}-${quantity}`}>Cantidad</InputLabel>
         <Input
@@ -105,6 +116,19 @@ const Item = (props: item) => {
           placeholder={`${quantity}`}
           type="number"
           onChange={handleQuantityChange}
+        />
+      </FormControl>
+      <div className={classes.itemText + ' ' + classes.item}>
+        {fullWeightPrice}
+      </div>
+      <FormControl className={classes.price}>
+        <InputLabel htmlFor={id}>Nuevo Precio Orma</InputLabel>
+        <Input
+          id={`${id}-${fullWeightPrice}`}
+          className={classes.item}
+          placeholder={`${fullWeightPrice}`}
+          type="number"
+          onChange={handleFullWeightPriceChange}
         />
       </FormControl>
     </div>
