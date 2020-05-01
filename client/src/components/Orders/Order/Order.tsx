@@ -4,6 +4,7 @@ import {
   Theme,
   withStyles,
   WithStyles,
+  makeStyles,
 } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,20 +14,11 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      margin: 0,
-      padding: theme.spacing(2),
-    },
-    closeButton: {
-      position: 'absolute',
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[500],
-    },
-  });
+import { Divider } from '@material-ui/core';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import axios from '../../../axios';
 
 export interface DialogTitleProps extends WithStyles<typeof styles> {
   id: string;
@@ -42,6 +34,7 @@ export interface orderProps {
   address: string;
   firstname: string;
   lastname: string;
+  weight: number;
 }
 
 export interface itemOrder {
@@ -50,6 +43,45 @@ export interface itemOrder {
   price: number;
   link: string;
 }
+
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      margin: 0,
+      padding: theme.spacing(2),
+    },
+    closeButton: {
+      position: 'absolute',
+      right: theme.spacing(1),
+      top: theme.spacing(1),
+      color: theme.palette.grey[500],
+    },
+  });
+const useStyles = makeStyles({
+  mainContainer: {
+    margin: 'auto',
+    width: '40%',
+    marginBottom: '10px',
+  },
+  openDialogButton: {
+    width: '100%',
+  },
+  completedIcon: {
+    marginLeft: '35px',
+  },
+  itemInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  itemsContainer: {
+    overflowY: 'scroll',
+  },
+  price: {
+    marginRight: '15px',
+  },
+});
 
 const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   const { children, classes, onClose, ...other } = props;
@@ -83,6 +115,8 @@ const DialogActions = withStyles((theme: Theme) => ({
 }))(MuiDialogActions);
 
 const Order = (props: orderProps) => {
+  console.log(props);
+  const classes = useStyles();
   const {
     id,
     content,
@@ -90,9 +124,23 @@ const Order = (props: orderProps) => {
     address,
     firstname,
     lastname,
+    weight,
     createdate,
   } = props;
   const [open, setOpen] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(completed);
+  const [isLoading, setIsLoading] = useState(false);
+
+  let isCompletedIcon = <CancelIcon className={classes.completedIcon} />;
+
+  if (isCompleted) {
+    isCompletedIcon = <CheckCircleIcon className={classes.completedIcon} />;
+  }
+
+  if (isLoading) {
+    isCompletedIcon = <CircularProgress className={classes.completedIcon} />;
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -101,18 +149,39 @@ const Order = (props: orderProps) => {
     setOpen(false);
   };
 
-  let totalPrice = 0;
-
   useEffect(() => {
+    let newPrice = 0;
     content.forEach((item: itemOrder) => {
-      totalPrice += item.price;
+      newPrice += item.price;
     });
+    setTotalPrice(newPrice);
   }, []);
 
+  const completeOrder = async () => {
+    setIsLoading(true);
+    const axiosResponse = await axios.post('/orders/admin/complete_order', {
+      id,
+    });
+
+    console.log(axiosResponse.status);
+    if (axiosResponse.status === 201) {
+      console.log('a');
+      setIsCompleted(true);
+      handleClose();
+    }
+    setIsLoading(false);
+  };
+
   return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open dialog
+    <div className={classes.mainContainer}>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={handleClickOpen}
+        className={classes.openDialogButton}
+      >
+        Pedido de {firstname} {lastname} ({createdate.substr(0, 10)}){' '}
+        {isCompletedIcon}
       </Button>
       <Dialog
         onClose={handleClose}
@@ -123,20 +192,25 @@ const Order = (props: orderProps) => {
           Pedido de {firstname} {lastname} ({createdate.substr(0, 10)})
         </DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
+          <Typography gutterBottom className={classes.itemsContainer}>
             {content.map((item: itemOrder, index) => {
               return (
-                <React.Fragment>
+                <div className={classes.itemInfo}>
                   <div>{item.name}</div>
-                  <div>{item.price}</div>
-                </React.Fragment>
+                  <div className={classes.price}>$ {item.price} </div>
+                </div>
               );
             })}
           </Typography>
+          <Divider />
           <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
+            <div>
+              <div>
+                Nombre: {firstname} {lastname}
+              </div>
+              <div>Dirección: {address} </div>
+              <div>Precio total aproximado: {totalPrice}</div>
+            </div>
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -146,7 +220,7 @@ const Order = (props: orderProps) => {
           <Button
             autoFocus
             variant="contained"
-            onClick={handleClose}
+            onClick={completeOrder}
             color="primary"
           >
             Completar orden

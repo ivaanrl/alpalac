@@ -5,6 +5,7 @@ interface shoppingCartInterface {
   name: string;
   price: number;
   link: string;
+  weight: number;
 }
 
 export interface shoppingCartArrayInterface
@@ -22,14 +23,15 @@ export const shoppingCart = (
       price: number;
       link: string;
       index?: number;
+      weight: number;
     };
   }
 ) => {
   switch (action.type) {
     case ActionTypes.addToShoppingCart: {
-      const { id, name, price, link } = action.payload;
+      const { id, name, price, link, weight } = action.payload;
       const newState = state;
-      newState.shoppingCart.push({ id, name, price, link });
+      newState.shoppingCart.push({ id, name, price, link, weight });
       return { ...state, ...newState };
     }
     case ActionTypes.removeFromShoppingCart: {

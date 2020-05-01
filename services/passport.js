@@ -7,9 +7,7 @@ passport.serializeUser((user, cb) => {
 });
 
 passport.deserializeUser(async (id, cb) => {
-  console.log('Deserializeee');
   try {
-    console.log('Finding Userrrr');
     const foundUser = await global.db.User.findOne({
       where: {
         id,
@@ -19,6 +17,8 @@ passport.deserializeUser(async (id, cb) => {
       id: foundUser.id,
       firstName: foundUser.firstName,
       lastName: foundUser.lastName,
+      address: foundUser.address,
+      role: foundUser.role,
     };
     cb(null, user);
   } catch (error) {
@@ -45,6 +45,7 @@ passport.use(
             id: profile.id,
             firstName: profile._json.given_name,
             lastName: profile._json.family_name,
+            role: 'user',
           });
         }
         cb(null, user);

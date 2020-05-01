@@ -273,17 +273,6 @@ const Navbar = () => {
     }
   }, [width]);
 
-  const [popup, setPopup] = useState<null | Window>(null);
-
-  const checkPopup = () => {
-    const check = setInterval(() => {
-      if (!popup) {
-        clearInterval(check);
-        setDisabled('');
-      }
-    }, 1000);
-  };
-
   useEffect(() => {
     const getUser = async () => {
       const user = await axios.get<{
@@ -340,7 +329,11 @@ const Navbar = () => {
     'Golosinas',
     'Varios',
   ];
-  const adminNavigation: string[] = ['Agregar/Editar', 'Pedidos'];
+  const adminNavigation: string[] = [
+    'Agregar/Editar',
+    'Pedidos pendientes',
+    'Todos los pedidos',
+  ];
 
   const authForm = (
     <FormControl className={classes.authForm}>
@@ -374,7 +367,7 @@ const Navbar = () => {
             <ListItemText primary={text} />
           </NavLink>
         );
-      case 'Pedidos':
+      case 'Pedidos pendientes':
         return (
           <NavLink to="/orders" className={classes.navLink}>
             <ListItemIcon>

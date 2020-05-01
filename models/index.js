@@ -16,7 +16,6 @@ if (!global.hasOwnProperty('db')) {
       console.log("can't connect to DB");
     }
   } else {
-    console.log('leeeel');
     sequelize = new Sequelize({
       database: 'Alpalac',
       username: 'ivanrl',

@@ -12,8 +12,19 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/incomplete_orders', async (req, res) => {
-    const orders = await getIncompleteOrders();
+  app.post('/orders/admin/complete_order', async (req, res) => {
+    const order = await completeOrder(req.body.id);
+    if (order) {
+      res.status(201);
+      res.send();
+    } else {
+      res.status(500);
+      res.send();
+    }
+  });
+
+  app.get('/orders/admin/incomplete_orders', async (req, res) => {
+    const orders = await getIncompleteOrders(req.body);
     if (orders) {
       res.status(200);
       res.send(orders);
@@ -54,8 +65,8 @@ const getIncompleteOrders = async () => {
            Users."firstName" AS firstName,Users."lastName" AS lastName,
            Users."address" as address 
     FROM orders 
-    INNER JOIN users ON users.id = orders."userId"`);
-    console.log(orders[0]);
+    INNER JOIN users ON users.id = orders."userId"
+    WHERE completed = false`);
     return orders[0];
   } catch (error) {
     return false;
@@ -64,8 +75,20 @@ const getIncompleteOrders = async () => {
 
 const completeOrder = async (orderId) => {
   try {
+    const order = await global.db.Order.findOne({
+      where: {
+        id: orderId,
+      },
+    });
+    if (order) {
+      order.completed = true;
+      await order.save();
+    }
+    console.log(order);
+    return true;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 

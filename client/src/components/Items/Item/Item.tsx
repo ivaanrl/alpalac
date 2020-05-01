@@ -1,84 +1,84 @@
-import React, { ChangeEvent, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import FormControl from "@material-ui/core/FormControl";
+import React, { ChangeEvent, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import FormControl from '@material-ui/core/FormControl';
 import {
   InputLabel,
   Input,
   FormControlLabel,
   Checkbox,
-} from "@material-ui/core";
-import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
-import { useDispatch } from "react-redux";
-import allActions from "../../../actions";
+} from '@material-ui/core';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import { useDispatch } from 'react-redux';
+import allActions from '../../../actions';
 
 const useStyles = makeStyles({
   root: {
     minWidth: 340,
-    margin: "35px",
+    margin: '35px',
     flex: 1,
   },
   media: {
     height: 140,
   },
   formControl: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-    width: "100%",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   inputCantidad: {
-    width: "150px",
-    marginLeft: "10px",
+    width: '150px',
+    marginLeft: '10px',
   },
   labelCantidad: {
-    marginLeft: "10px",
+    marginLeft: '10px',
   },
   addToShoppingListButton: {
-    marginRight: "10px",
+    marginRight: '10px',
   },
   productTextContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   productName: {
-    fontSize: "20px",
-    fontWeight: "bold",
-    color: "black",
+    fontSize: '20px',
+    fontWeight: 'bold',
+    color: 'black',
   },
 
   pricePerKg: {
-    fontSize: "16px",
-    color: "black",
-    marginBottom: "10px",
+    fontSize: '16px',
+    color: 'black',
+    marginBottom: '10px',
   },
   actualPrice: {
-    fontSize: "16px",
-    color: "black",
+    fontSize: '16px',
+    color: 'black',
   },
   spacer: {
-    height: "22px",
-    width: "100%",
+    height: '22px',
+    width: '100%',
   },
   cardActions: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
   },
   fullWeightPriceCheckbox: {
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
   },
   checkBoxSpacer: {
-    height: "42px",
-    width: "150px",
+    height: '42px',
+    width: '150px',
   },
 });
 
@@ -111,17 +111,20 @@ export default function Item(props: itemInterface) {
   const [actualPrice, setActualPrice] = useState(0);
   const [partitionableCheck, setPartitionableCheck] = useState(false);
   const [inputDisabled, setInputDisabled] = useState(false);
+  const [weight, setWeight] = useState(0);
 
   const calculatePrice = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     if (e) {
       let newPrice;
+      const inputValue = parseInt(e.target.value, 10);
       if (partitionable) {
-        newPrice = price * (parseInt(e.target.value, 10) / 1000);
+        newPrice = price * (inputValue / 1000);
       } else {
-        newPrice = price * parseInt(e.target.value, 10);
+        newPrice = price * inputValue;
       }
+      setWeight(inputValue);
 
       if (isNaN(newPrice)) {
         setActualPrice(0);
@@ -132,9 +135,28 @@ export default function Item(props: itemInterface) {
   };
 
   const addToShoppingCart = () => {
-    dispatch(
-      allActions.addToShoppingCart({ id, name, price: actualPrice, link })
-    );
+    if (fullWeightPrice && actualPrice === parseFloat(fullWeightPrice)) {
+      dispatch(
+        allActions.addToShoppingCart({
+          id,
+          name: name + ' (orma completa)',
+          price: actualPrice,
+          link,
+          weight,
+        })
+      );
+    } else {
+      console.log(weight);
+      dispatch(
+        allActions.addToShoppingCart({
+          id,
+          name: name + ` (${weight} gr.)`,
+          price: actualPrice,
+          link,
+          weight,
+        })
+      );
+    }
   };
 
   const switchPartitionable = () => {
@@ -163,7 +185,7 @@ export default function Item(props: itemInterface) {
           >
             <div className={classes.productName}>{name}</div>
             <div className={classes.pricePerKg}>
-              Precio: <strong>$ {price}</strong> {partitionable ? "/kg" : null}
+              Precio: <strong>$ {price}</strong> {partitionable ? '/kg' : null}
               <br></br>
               {partitionable ? (
                 `Precio orma completa: $ ${fullWeightPrice}`
@@ -173,7 +195,7 @@ export default function Item(props: itemInterface) {
             </div>
             {actualPrice > 0 || partitionableCheck ? (
               <div className={classes.actualPrice}>
-                Precio actual:{" "}
+                Precio actual:{' '}
                 <strong>
                   $ {partitionableCheck ? fullWeightPrice : actualPrice}
                 </strong>
@@ -212,7 +234,7 @@ export default function Item(props: itemInterface) {
             className={classes.labelCantidad}
             disabled={inputDisabled}
           >
-            {partitionable ? "Cantidad en gramos" : "Cantidad"}
+            {partitionable ? 'Cantidad en gramos' : 'Cantidad'}
           </InputLabel>
           <Input
             id="my-input"

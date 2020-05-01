@@ -1,7 +1,7 @@
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = (app) => {
-  app.post("/items/addItem", async (req, res) => {
+  app.post('/items/addItem', async (req, res) => {
     const newItem = await addItem(req.body);
     if (newItem) {
       res.status(201);
@@ -12,13 +12,13 @@ module.exports = (app) => {
     }
   });
 
-  app.get("/items/:category", async (req, res) => {
+  app.get('/items/:category', async (req, res) => {
     const category = req.params.category;
     const items = await getItemByCategory(category);
     res.send(items);
   });
 
-  app.post("/items/editItems", async (req, res) => {
+  app.post('/items/editItems', async (req, res) => {
     try {
       const items = req.body;
       items.forEach(async (item) => {
@@ -43,6 +43,7 @@ const addItem = async (item) => {
     category,
     partitionable,
     fullWeightPrice,
+    weight,
   } = item;
 
   try {
@@ -52,15 +53,17 @@ const addItem = async (item) => {
       name,
       price,
       quantity,
-      tags: tags.split(","),
+      tags: tags.split(','),
       link: image,
       category,
       partitionable,
       fullWeightPrice: parseFloat(fullWeightPrice),
+      weight,
     });
     return newItem;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 

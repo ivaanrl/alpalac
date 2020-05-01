@@ -5,6 +5,7 @@ export const addToShoppingCart = (payload: {
   name: string;
   price: number;
   link: string;
+  weight: number;
 }) => {
   return {
     type: ActionTypes.addToShoppingCart,

@@ -61,6 +61,7 @@ const Checkout = () => {
 
   const confirmPurchase = async () => {
     setIsLoading(true);
+    console.log(shoppingCartItems);
     const axiosResponse = await axios.post('/orders/new', {
       user,
       shoppingCart: shoppingCartItems,

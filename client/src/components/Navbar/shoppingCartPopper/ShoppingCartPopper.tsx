@@ -1,70 +1,74 @@
-import React from "react";
+import React from 'react';
 import {
   Popper,
   Theme,
   makeStyles,
   createStyles,
   Button,
-} from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
-import { StoreState } from "../../../reducers";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import allActions from "../../../actions";
-import { NavLink } from "react-router-dom";
+} from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { StoreState } from '../../../reducers';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import allActions from '../../../actions';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
-      borderTopLeftRadius: "6px",
-      borderTopRightRadius: "6px",
+      borderTopLeftRadius: '6px',
+      borderTopRightRadius: '6px',
       border: `2px solid ${theme.palette.primary.light}`,
       padding: theme.spacing(1),
-      backgroundColor: "white",
-      color: "black",
-      maxHeight: "400px",
-      minHeight: "200px",
-      minWidth: "320px",
-      overflowY: "scroll",
+      backgroundColor: 'white',
+      color: 'black',
+      maxHeight: '400px',
+      minHeight: '200px',
+      minWidth: '420px',
+      maxWidth: '420px',
+      overflowY: 'scroll',
     },
     shoppingCartItemContainer: {
-      display: "flex",
-      width: "100%",
-      alignItems: "center",
-      justifyContent: "space-between",
-      borderBottom: "1px solid #C0C0C0",
-      borderRadius: "5px",
-      borderRight: "1px solid #edece8",
-      borderLeft: "1px solid #edece8",
-      padding: "7px",
-      marginBottom: "5px",
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottom: '1px solid #C0C0C0',
+      borderRadius: '5px',
+      borderRight: '1px solid #edece8',
+      borderLeft: '1px solid #edece8',
+      padding: '7px',
+      marginBottom: '5px',
     },
     image: {
-      maxWidth: "40px",
-      borderRadius: "6px",
+      maxWidth: '40px',
+      borderRadius: '6px',
     },
     textContainer: {
-      display: "flex",
-      flexDirection: "row",
+      display: 'flex',
+      flexDirection: 'row',
     },
     name: {},
     price: {},
     resume: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-around",
-      width: "320px",
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      width: '420px',
       backgroundColor: `${theme.palette.primary.main}`,
-      borderBottomRightRadius: "6px",
-      borderBottomLeftRadius: "6px",
+      borderBottomRightRadius: '6px',
+      borderBottomLeftRadius: '6px',
     },
     totalPrice: {},
     viewCartButton: {
-      fontSize: "12px",
-      marginTop: "5px",
-      marginBottom: "5px",
+      fontSize: '12px',
+      marginTop: '5px',
+      marginBottom: '5px',
     },
     link: {
-      textDecoration: "none",
+      textDecoration: 'none',
+    },
+    deleteItemButton: {
+      maxWidth: '30px',
     },
   })
 );
@@ -107,7 +111,7 @@ const ShoppingCartPopper = (props: {
         },
         preventOverflow: {
           enabled: true,
-          boundariesElement: "scrollParent",
+          boundariesElement: 'scrollParent',
         },
       }}
     >
@@ -118,7 +122,7 @@ const ShoppingCartPopper = (props: {
               <img
                 src={item.link}
                 className={classes.image}
-                alt={"imagen de item"}
+                alt={'imagen de item'}
               />
               <div className={classes.textContainer}>
                 <div className={classes.name}>{item.name}</div>
@@ -128,6 +132,7 @@ const ShoppingCartPopper = (props: {
                 color="primary"
                 variant="contained"
                 onClick={() => deleteShoppingCartItem(index)}
+                className={classes.deleteItemButton}
               >
                 <DeleteForeverIcon />
               </Button>

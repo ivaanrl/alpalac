@@ -1,10 +1,10 @@
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define("item", {
+  return sequelize.define('item', {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
       allowNull: false,
-      field: "id",
+      field: 'id',
     },
     name: {
       type: DataTypes.STRING,

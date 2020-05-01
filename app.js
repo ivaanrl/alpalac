@@ -14,8 +14,6 @@ const corsOptions = {
   credentials: true,
 };
 
-console.log(process.env.DATABASE_URL);
-
 const pool = new Pool({
   user: 'ivanrl',
   password: '73442332',
