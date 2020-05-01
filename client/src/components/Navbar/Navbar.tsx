@@ -239,7 +239,11 @@ const Navbar = () => {
   const handleShoppingCartIconClick = (
     event: React.MouseEvent<HTMLElement>
   ) => {
-    setPopperAnchorEl(popperAnchorEl ? null : event.currentTarget);
+    if (user.role != '') {
+      setPopperAnchorEl(popperAnchorEl ? null : event.currentTarget);
+    } else {
+      handleOpen();
+    }
   };
 
   const openPopper = Boolean(popperAnchorEl);
@@ -279,8 +283,8 @@ const Navbar = () => {
         id: string;
         firstName: string;
         lastName: string;
+        role: string;
       }>('api/current_user');
-      console.log(user);
       dispatch(allActions.login(user.data));
     };
     getUser();
@@ -503,14 +507,18 @@ const Navbar = () => {
               </ListItem>
             ))}
           </List>
-          <Divider />
-          <List>
-            {adminNavigation.map((text, index) => (
-              <ListItem button key={text}>
-                {chooseNavItem(text)}
-              </ListItem>
-            ))}
-          </List>
+          {user.role === 'admin' ? (
+            <React.Fragment>
+              <Divider />
+              <List>
+                {adminNavigation.map((text, index) => (
+                  <ListItem button key={text}>
+                    {chooseNavItem(text)}
+                  </ListItem>
+                ))}
+              </List>
+            </React.Fragment>
+          ) : null}
         </Drawer>
       ) : (
         <Modal
@@ -557,14 +565,18 @@ const Navbar = () => {
                 </ListItem>
               ))}
             </List>
-            <Divider />
-            <List>
-              {adminNavigation.map((text, index) => (
-                <ListItem button key={text}>
-                  {chooseNavItem(text)}
-                </ListItem>
-              ))}
-            </List>
+            {user.role === 'admin' ? (
+              <React.Fragment>
+                <Divider />
+                <List>
+                  {adminNavigation.map((text, index) => (
+                    <ListItem button key={text}>
+                      {chooseNavItem(text)}
+                    </ListItem>
+                  ))}
+                </List>
+              </React.Fragment>
+            ) : null}
           </Drawer>
         </Modal>
       )}

@@ -1,7 +1,9 @@
 const { v4: uuidv4 } = require('uuid');
+const checkAuth = require('../middlewares/check-auth');
+const checkAdmin = require('../middlewares/check-admin');
 
 module.exports = (app) => {
-  app.post('/orders/new', async (req, res) => {
+  app.post('/orders/new', checkAuth, async (req, res) => {
     const newOrder = await addOrder(req.body, req.user.id);
     if (newOrder) {
       res.status(201);
@@ -12,7 +14,7 @@ module.exports = (app) => {
     }
   });
 
-  app.post('/orders/admin/complete_order', async (req, res) => {
+  app.post('/orders/admin/complete_order', checkAdmin, async (req, res) => {
     const order = await completeOrder(req.body.id);
     if (order) {
       res.status(201);
@@ -23,7 +25,7 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/orders/admin/incomplete_orders', async (req, res) => {
+  app.get('/orders/admin/incomplete_orders', checkAdmin, async (req, res) => {
     const orders = await getIncompleteOrders(req.body);
     if (orders) {
       res.status(200);

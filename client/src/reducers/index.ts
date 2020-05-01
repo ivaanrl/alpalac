@@ -1,7 +1,7 @@
-import { combineReducers } from "redux";
-import { reducer as formReducer, FormStateMap } from "redux-form";
-import { user } from "./auth";
-import { shoppingCart, shoppingCartArrayInterface } from "./shoppingCart";
+import { combineReducers } from 'redux';
+import { reducer as formReducer, FormStateMap } from 'redux-form';
+import { user } from './auth';
+import { shoppingCart, shoppingCartArrayInterface } from './shoppingCart';
 
 export interface StoreState {
   user: {
@@ -10,6 +10,7 @@ export interface StoreState {
     lastName: string;
     street: string;
     number: string;
+    role: string;
   };
   form: FormStateMap;
   shoppingCart: { shoppingCart: shoppingCartArrayInterface };

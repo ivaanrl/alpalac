@@ -1,66 +1,66 @@
-import React, { useState, useEffect } from "react";
-import Item from "../Item/ItemToEdit";
+import React, { useState, useEffect } from 'react';
+import Item from '../Item/ItemToEdit';
 import {
   makeStyles,
   Theme,
   createStyles,
   Button,
   Modal,
-} from "@material-ui/core";
-import DoneIcon from "@material-ui/icons/Done";
-import AddIcon from "@material-ui/icons/Add";
-import AddItemForm from "./AddItemForm";
-import { Formik } from "formik";
-import { AddItemSubmit } from "./AddItemSubmit";
-import * as Yup from "yup";
-import axios from "../../axios";
-import { itemInterface } from "../Items/Item/Item";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+} from '@material-ui/core';
+import DoneIcon from '@material-ui/icons/Done';
+import AddIcon from '@material-ui/icons/Add';
+import AddItemForm from './AddItemForm';
+import { Formik } from 'formik';
+import { AddItemSubmit } from './AddItemSubmit';
+import * as Yup from 'yup';
+import axios from '../../axios';
+import { itemInterface } from '../Items/Item/Item';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     itemsContainer: {
-      width: "65%",
-      margin: "auto",
-      position: "relative",
+      width: '65%',
+      margin: 'auto',
+      position: 'relative',
     },
     titles: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-around",
-      width: "100%",
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      width: '100%',
     },
     name: {
-      flexBasis: "25%",
+      flexBasis: '25%',
     },
     priceInput: {
-      width: "20%",
+      width: '20%',
     },
     quantityInput: {
-      width: "13%",
+      width: '13%',
     },
     items: {
-      maxHeight: "700px",
-      overflowY: "scroll",
+      maxHeight: '700px',
+      overflowY: 'scroll',
     },
     formButtons: {
-      position: "absolute",
-      right: "0%",
-      marginTop: "20px",
+      position: 'absolute',
+      right: '0%',
+      marginTop: '20px',
     },
     addButton: {
-      marginRight: "30px",
+      marginRight: '30px',
     },
   })
 );
 
 const addItemFormValidationSchema = Yup.object({
-  name: Yup.string().required("Debes ingresar un nombre"),
-  price: Yup.number().required("Debes ingresar un precio"),
-  quantity: Yup.number().required("Debes ingresar una cantidad"),
-  tags: Yup.string().required("Debes ingresar una etiqueta"),
-  category: Yup.string().required("Debes ingresar una categoria"),
+  name: Yup.string().required('Debes ingresar un nombre'),
+  price: Yup.number().required('Debes ingresar un precio'),
+  quantity: Yup.number().required('Debes ingresar una cantidad'),
+  tags: Yup.string().required('Debes ingresar una etiqueta'),
+  category: Yup.string().required('Debes ingresar una categoria'),
   partitionable: Yup.boolean(),
   fullWeightPrice: Yup.string(),
 });
@@ -75,9 +75,8 @@ export interface addItemFormValues {
   fullWeightPrice: string;
 }
 
-const EditItems = (props: RouteComponentProps) => {
+const EditItems = () => {
   const classes = useStyles();
-
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpen = () => {
@@ -88,16 +87,18 @@ const EditItems = (props: RouteComponentProps) => {
     setOpenModal(false);
   };
 
-  const { location } = props;
+  let location = useLocation();
 
   const [items, setItems] = useState<itemInterface[]>([]);
 
   const [modifiedItems, setModifiedItems] = useState<itemInterface[]>([]);
 
   useEffect(() => {
-    const category = location.pathname.split("/")[2];
+    const category = location.pathname.split('/')[2];
+    console.log(location);
+    console.log('aaa');
     (async function getItemsByCategory() {
-      const items = await axios.get<itemInterface[]>("/items/" + "quesos");
+      const items = await axios.get<itemInterface[]>('/items/' + 'quesos');
       setItems(items.data);
       setModifiedItems(items.data);
     })();
@@ -115,12 +116,12 @@ const EditItems = (props: RouteComponentProps) => {
 
   const sendModifiedItems = async () => {
     const modifiedItemsResponse = await axios.post(
-      "/items/editItems",
+      '/items/editItems',
       modifiedItems
     );
 
     if (modifiedItemsResponse.status === 201) {
-      const items = await axios.get<itemInterface[]>("/items/" + "quesos");
+      const items = await axios.get<itemInterface[]>('/items/' + 'quesos');
       console.log(items.data);
       setItems(items.data);
       setModifiedItems(items.data);
@@ -128,20 +129,20 @@ const EditItems = (props: RouteComponentProps) => {
   };
 
   const initialAddItemFormValues: addItemFormValues = {
-    name: "",
-    price: "",
-    quantity: "",
-    tags: "",
-    category: "",
+    name: '',
+    price: '',
+    quantity: '',
+    tags: '',
+    category: '',
     partitionable: false,
-    fullWeightPrice: "",
+    fullWeightPrice: '',
   };
 
-  const [imageUrl, setImgUrl] = useState("");
+  const [imageUrl, setImgUrl] = useState('');
 
   const cleanUpSubmit = () => {
     setOpenModal(false);
-    setImgUrl("");
+    setImgUrl('');
   };
 
   return (
@@ -210,4 +211,4 @@ const EditItems = (props: RouteComponentProps) => {
   );
 };
 
-export default withRouter(EditItems);
+export default EditItems;

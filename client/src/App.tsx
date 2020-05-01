@@ -7,16 +7,18 @@ import EditItems from './components/editItems/EditItems';
 import Category from './components/Category/Category';
 import Checkout from './components/Checkout/Checkout';
 import Orders from './components/Orders/Orders';
+import AdminRoute from './guards/AdminRoute';
+import LoggedinRoute from './guards/LoggedinRoute';
 
 function App() {
   return (
     <div className="App">
       <Navbar />
       <Switch>
-        <Route path="/editItems" component={EditItems} />
         <Route path="/category" component={Category} />
-        <Route path="/checkout" component={Checkout} />
-        <Route path="/orders" component={Orders} />
+        <LoggedinRoute path="/checkout" Component={Checkout} />
+        <AdminRoute path="/editItems" Component={EditItems} />
+        <AdminRoute path="/orders" Component={Orders} />
         <Route path="/" exact component={HomePage} />
       </Switch>
     </div>

@@ -1,9 +1,10 @@
-import { ActionTypes } from "./types";
+import { ActionTypes } from './types';
 
 export const login = (payload: {
   id: string;
   firstName: string;
   lastName: string;
+  role: string;
 }) => {
   return {
     type: ActionTypes.login,
