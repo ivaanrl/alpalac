@@ -3,5 +3,6 @@ export enum ActionTypes {
   logout,
   addToShoppingCart,
   removeFromShoppingCart,
+  clearShoppingCart,
   addUserInfo,
 }

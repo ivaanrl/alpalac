@@ -8,6 +8,7 @@ import allActions from '../../actions';
 import { StoreState } from '../../reducers';
 import ReviewPage from './ReviewPage/ReviewPage';
 import axios from '../../axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const checkoutFormValidationSchhema = Yup.object({
   name: Yup.string()
@@ -36,6 +37,7 @@ const Checkout = () => {
   );
 
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const initialCheckOutFormValues: checkoutFormValues = {
     name: user.firstName,
@@ -58,13 +60,15 @@ const Checkout = () => {
   };
 
   const confirmPurchase = async () => {
+    setIsLoading(true);
     const axiosResponse = await axios.post('/orders/new', {
       user,
       shoppingCart: shoppingCartItems,
     });
-
+    setIsLoading(false);
     if (axiosResponse.status === 201) {
-      pageShown = <div>Compra realizada</div>;
+      setPage(4);
+      dispatch(allActions.clearShoppingCart());
     }
   };
 
@@ -83,7 +87,13 @@ const Checkout = () => {
       />
     );
   } else if (page === 3) {
-    pageShown = <ReviewPage confirmPurchase={confirmPurchase} />;
+    pageShown = isLoading ? (
+      <CircularProgress style={{ marginTop: '50px' }} />
+    ) : (
+      <ReviewPage confirmPurchase={confirmPurchase} />
+    );
+  } else if (page === 4) {
+    pageShown = <div>Compra realizada</div>;
   }
 
   return <div>{pageShown} </div>;

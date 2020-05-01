@@ -1,4 +1,4 @@
-import { ActionTypes } from "../actions/types";
+import { ActionTypes } from '../actions/types';
 
 interface shoppingCartInterface {
   id: string;
@@ -42,6 +42,9 @@ export const shoppingCart = (
         newState.shoppingCart.splice(index, 1);
       }
       return { ...state, ...newState };
+    }
+    case ActionTypes.clearShoppingCart: {
+      return { shoppingCart: [] };
     }
     default:
       return state;

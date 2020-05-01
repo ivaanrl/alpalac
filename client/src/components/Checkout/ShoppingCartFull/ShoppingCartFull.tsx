@@ -74,10 +74,6 @@ const ShoppingCartFull = (props: shoppingCartFullProps) => {
     return totalPrice;
   };
 
-  useEffect(() => {
-    console.log('a');
-  }, [shoppingCartItems]);
-
   return (
     <Container maxWidth="lg" className={classes.mainContainer}>
       {shoppingCartItems.map((item, index) => {

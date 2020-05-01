@@ -1,10 +1,10 @@
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define("user", {
+  return sequelize.define('user', {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
       allowNull: false,
-      field: "id",
+      field: 'id',
     },
     firstName: {
       type: DataTypes.STRING,
@@ -13,6 +13,9 @@ module.exports = function (sequelize, DataTypes) {
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    address: {
+      type: DataTypes.STRING,
     },
     createdAt: {
       type: DataTypes.DATE,

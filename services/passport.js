@@ -9,6 +9,7 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser(async (id, cb) => {
   console.log('Deserializeee');
   try {
+    console.log('Finding Userrrr');
     const foundUser = await global.db.User.findOne({
       where: {
         id,

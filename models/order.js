@@ -1,10 +1,10 @@
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define("order", {
+  return sequelize.define('order', {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
       allowNull: false,
-      field: "id",
+      field: 'id',
     },
     userId: {
       type: DataTypes.STRING,
@@ -12,6 +12,10 @@ module.exports = function (sequelize, DataTypes) {
     },
     content: {
       type: DataTypes.JSON,
+      allowNull: false,
+    },
+    completed: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
   });

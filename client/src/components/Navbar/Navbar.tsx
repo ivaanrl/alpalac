@@ -214,6 +214,14 @@ const useStyles = makeStyles((theme: Theme) =>
       color: 'black',
       textDecoration: 'none',
     },
+    aElement: {
+      textDecoration: 'none',
+      color: 'inherit',
+    },
+    myOrders: {
+      marginRight: '10px',
+    },
+    logoutButton: {},
   })
 );
 
@@ -304,19 +312,41 @@ const Navbar = () => {
 
   if (user.firstName !== '' && user.lastName !== '') {
     authButtons = (
-      <a href="/api/logout">
-        <Button variant="contained" color="secondary" disableElevation>
+      <a href="/api/logout" className={classes.aElement}>
+        <Button
+          variant="contained"
+          color="secondary"
+          disableElevation
+          className={classes.myOrders}
+        >
+          Mis pedidos
+        </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          disableElevation
+          className={classes.logoutButton}
+        >
           Cerrar Sesión
         </Button>
       </a>
     );
   }
 
+  const userNavigation: string[] = [
+    'Quesos',
+    'Picadas',
+    'Fiambres',
+    'Golosinas',
+    'Varios',
+  ];
+  const adminNavigation: string[] = ['Agregar/Editar', 'Pedidos'];
+
   const authForm = (
     <FormControl className={classes.authForm}>
       <div className={classes.signInContainer}>
         <div className={classes.signInTitle}>Iniciar Sesión</div>
-        <a href="/auth/google">
+        <a href="/auth/google" className={classes.aElement}>
           <GoogleButton label="Iniciar sesión con Google" />
         </a>
         <GoogleButton label="Iniciar sesión con Google" />
@@ -338,6 +368,15 @@ const Navbar = () => {
       case 'Agregar/Editar':
         return (
           <NavLink to="/editItems" className={classes.navLink}>
+            <ListItemIcon>
+              <AddIcon />
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </NavLink>
+        );
+      case 'Pedidos':
+        return (
+          <NavLink to="/orders" className={classes.navLink}>
             <ListItemIcon>
               <AddIcon />
             </ListItemIcon>
@@ -388,7 +427,7 @@ const Navbar = () => {
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder="Search…"
+                placeholder="Buscar…"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -454,13 +493,11 @@ const Navbar = () => {
           <List>
             <div className={classes.categories}>Categorías</div>
 
-            {['Quesos', 'Agregar/Editar', 'No sé', 'No séx2'].map(
-              (text, index) => (
-                <ListItem button key={text}>
-                  {chooseNavItem(text)}
-                </ListItem>
-              )
-            )}
+            {userNavigation.map((text, index) => (
+              <ListItem button key={text}>
+                {chooseNavItem(text)}
+              </ListItem>
+            ))}
           </List>
           <Divider />
           <List>
@@ -470,6 +507,14 @@ const Navbar = () => {
                   <ShoppingCartIcon />
                 </ListItemIcon>
                 <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            {adminNavigation.map((text, index) => (
+              <ListItem button key={text}>
+                {chooseNavItem(text)}
               </ListItem>
             ))}
           </List>
@@ -502,13 +547,11 @@ const Navbar = () => {
             <List>
               <div className={classes.categories}>Categorías</div>
 
-              {['Quesos', 'Agregar/Editar', 'No sé', 'No séx2'].map(
-                (text, index) => (
-                  <ListItem button key={text}>
-                    {chooseNavItem(text)}
-                  </ListItem>
-                )
-              )}
+              {userNavigation.map((text, index) => (
+                <ListItem button key={text}>
+                  {chooseNavItem(text)}
+                </ListItem>
+              ))}
             </List>
             <Divider />
             <List>
@@ -518,6 +561,14 @@ const Navbar = () => {
                     <ShoppingCartIcon />
                   </ListItemIcon>
                   <ListItemText primary={text} />
+                </ListItem>
+              ))}
+            </List>
+            <Divider />
+            <List>
+              {adminNavigation.map((text, index) => (
+                <ListItem button key={text}>
+                  {chooseNavItem(text)}
                 </ListItem>
               ))}
             </List>

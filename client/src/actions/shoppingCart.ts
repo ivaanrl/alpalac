@@ -1,4 +1,4 @@
-import { ActionTypes } from "./types";
+import { ActionTypes } from './types';
 
 export const addToShoppingCart = (payload: {
   id: string;
@@ -16,5 +16,11 @@ export const removeFromShoppingCart = (payload: { index: number }) => {
   return {
     type: ActionTypes.removeFromShoppingCart,
     payload,
+  };
+};
+
+export const clearShoppingCart = () => {
+  return {
+    type: ActionTypes.clearShoppingCart,
   };
 };
