@@ -15,7 +15,7 @@ import { AddItemSubmit } from './AddItemSubmit';
 import * as Yup from 'yup';
 import axios from '../../axios';
 import { itemInterface } from '../Items/Item/Item';
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -140,8 +140,6 @@ const EditItems = () => {
   const handleClose = () => {
     setOpenModal(false);
   };
-
-  let location = useLocation();
 
   const [items, setItems] = useState<itemInterface[]>([]);
 

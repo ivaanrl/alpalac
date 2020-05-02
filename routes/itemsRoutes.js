@@ -31,6 +31,18 @@ module.exports = (app) => {
       res.send();
     }
   });
+
+  app.get('/items/search/:searchterms', async (req, res) => {
+    try {
+      const searchTerm = req.params.searchterms;
+      const items = await getItemsBySearch(searchTerm);
+      res.status(201);
+      res.send(items);
+    } catch (error) {
+      res.status(500);
+      res.send();
+    }
+  });
 };
 
 const addItem = async (item) => {
@@ -46,6 +58,14 @@ const addItem = async (item) => {
     weight,
   } = item;
 
+  const tagsToAdd = [];
+
+  const formattedTags = tags.trim().split(',');
+
+  formattedTags.forEach((tag) => {
+    tagsToAdd.push(`'${tag}'`);
+  });
+
   try {
     const id = uuidv4();
     const newItem = await global.db.Item.create({
@@ -53,7 +73,7 @@ const addItem = async (item) => {
       name,
       price,
       quantity,
-      tags: tags.split(','),
+      tags: tagsToAdd,
       link: image,
       category,
       partitionable,
@@ -86,5 +106,18 @@ const editItem = async (item) => {
     }
   } catch (error) {
     console.log(error);
+  }
+};
+
+const getItemsBySearch = async (searchTerm) => {
+  searchTerm = searchTerm.split('+');
+  try {
+    const items = await sequelize.query(`
+      SELECT * FROM items 
+      WHERE '{${searchTerm}}' && tags
+    `);
+    return items[0];
+  } catch (error) {
+    return false;
   }
 };

@@ -10,6 +10,7 @@ import Orders from './components/Orders/Orders';
 import AdminRoute from './guards/AdminRoute';
 import LoggedinRoute from './guards/LoggedinRoute';
 import UserOrders from './components/UserOrders/UserOrders';
+import ItemsSearch from './components/ItemsSearch/ItemsSearch';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <LoggedinRoute path="/myOrders" Component={UserOrders} />
         <AdminRoute path="/editItems" Component={EditItems} />
         <AdminRoute path="/orders" Component={Orders} />
+        <Route path="/search/item" component={ItemsSearch} />
         <Route path="/" exact component={HomePage} />
       </Switch>
     </div>

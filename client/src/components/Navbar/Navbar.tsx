@@ -37,9 +37,10 @@ import GoogleButton from 'react-google-button';
 //import FacebookLogin from "react-facebook-login";
 
 import axios from '../../axios';
-import { NavLink } from 'react-router-dom';
+import { NavLink, RouteComponentProps } from 'react-router-dom';
 import ShoppingCartPopper from './shoppingCartPopper/ShoppingCartPopper';
 import { useLocation } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 const drawerWidth = 240;
 
@@ -225,11 +226,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Navbar = () => {
+const Navbar = (props: RouteComponentProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [disabled, setDisabled] = useState('');
+  const { history } = props;
 
   const [
     popperAnchorEl,
@@ -400,11 +402,35 @@ const Navbar = () => {
     }
   };
 
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = (
+    e: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    if (e.key === 'Enter') {
+      search();
+    }
+  };
+
+  const search = () => {
+    history.push({
+      pathname: '/search/item',
+      search: '?' + new URLSearchParams({ searchValue }).toString(),
+    });
+  };
+
+  const handleSearchChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    e.persist();
+    setSearchValue(e.target.value);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-        position="sticky"
+        position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -427,7 +453,7 @@ const Navbar = () => {
           <div className={classes.rightNavbar}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
-                <SearchIcon />
+                <SearchIcon onClick={search} />
               </div>
               <InputBase
                 placeholder="Buscar…"
@@ -436,6 +462,9 @@ const Navbar = () => {
                   input: classes.inputInput,
                 }}
                 inputProps={{ 'aria-label': 'search' }}
+                value={searchValue}
+                onKeyUp={handleSearch}
+                onChange={handleSearchChange}
               />
             </div>
             <div className={classes.account}>
@@ -589,4 +618,4 @@ const Navbar = () => {
     </div>
   );
 };
-export default Navbar;
+export default withRouter(Navbar);
