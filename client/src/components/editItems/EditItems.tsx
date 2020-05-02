@@ -15,12 +15,9 @@ import { AddItemSubmit } from './AddItemSubmit';
 import * as Yup from 'yup';
 import axios from '../../axios';
 import { itemInterface } from '../Items/Item/Item';
-//import { useLocation } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -175,7 +172,7 @@ const EditItems = () => {
     );
 
     if (modifiedItemsResponse.status === 201) {
-      const items = await axios.get<itemInterface[]>('/items/' + 'quesos');
+      const items = await axios.get<itemInterface[]>('/items/' + category);
       setItems(items.data);
       setModifiedItems(items.data);
     }

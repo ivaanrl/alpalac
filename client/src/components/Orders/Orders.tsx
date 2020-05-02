@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CssBaseline, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import axios from '../../axios';
 import Order, { orderProps as orderInterface } from '../Order/Order';
 
@@ -39,7 +39,7 @@ const Orders = () => {
       const axiosResponse = await axios.get<orderInterface[]>(
         '/orders/admin/incomplete_orders'
       );
-      if (axiosResponse.status == 200) {
+      if (axiosResponse.status === 200) {
         setOrders(axiosResponse.data);
       }
     })();

@@ -287,7 +287,6 @@ const Navbar = (props: RouteComponentProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [disabled, setDisabled] = useState('');
   const { history } = props;
 
   const [
@@ -298,7 +297,7 @@ const Navbar = (props: RouteComponentProps) => {
   const handleShoppingCartIconClick = (
     event: React.MouseEvent<HTMLElement>
   ) => {
-    if (user.role != '') {
+    if (user.role !== '') {
       setPopperAnchorEl(popperAnchorEl ? null : event.currentTarget);
     } else {
       handleOpen();
@@ -349,7 +348,7 @@ const Navbar = (props: RouteComponentProps) => {
       dispatch(allActions.login(user.data));
     };
     getUser();
-  }, []);
+  }, [dispatch]);
 
   let location = useLocation().pathname.split('/')[1];
 
@@ -638,7 +637,7 @@ const Navbar = (props: RouteComponentProps) => {
             </div>
             <Divider />
             <List className={classes.accountButtonsList}>
-              {user.role != '' ? (
+              {user.role !== '' ? (
                 <React.Fragment>
                   <div className={classes.accountButtons}>Mi cuenta</div>
                   <NavLink

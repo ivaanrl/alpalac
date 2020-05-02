@@ -41,7 +41,7 @@ const UserOrders = () => {
       const axiosResponse = await axios.get<orderInterface[]>(
         '/orders/get_orders'
       );
-      if (axiosResponse.status == 200) {
+      if (axiosResponse.status === 200) {
         setOrders(axiosResponse.data);
       }
     })();
