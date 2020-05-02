@@ -83,6 +83,12 @@ const useStyles = makeStyles((theme: Theme) =>
     continueShoppingButton: {
       marginRight: '25px',
     },
+    backButton: {
+      marginRight: '20px',
+    },
+    smallText: {
+      fontWeight: 'normal',
+    },
   })
 );
 
@@ -107,15 +113,15 @@ const ReviewPage = (props: reviewPageProps) => {
     <Container maxWidth="lg">
       <div className={classes.userInfoContainer}>
         <div className={classes.userInfo}>
-          <strong>Nombre:</strong>
+          <strong>Nombre: </strong>
           {user.firstName} {user.lastName}
         </div>
         <div className={classes.userInfo}>
-          <strong>Dirección:</strong>
+          <strong>Dirección: </strong>
           {user.street} {user.number}
         </div>
         <div className={classes.userInfo}>
-          <strong>Número de teléfono:</strong>
+          <strong>Número de teléfono: </strong>
           {user.phoneNumber}{' '}
         </div>
       </div>
@@ -136,8 +142,17 @@ const ReviewPage = (props: reviewPageProps) => {
       </div>
       <div className={classes.totalPriceDisplay}>
         Precio total APROXIMADO: ${getTotalPrice()}
+        <br></br>
+        <small className={classes.smallText}>
+          Se le enviará un mensaje de texto con el monto exacto en el momento en
+          el que se confirme el pedido.
+        </small>
       </div>
-      <Button color="secondary" variant="contained">
+      <Button
+        color="secondary"
+        variant="contained"
+        className={classes.backButton}
+      >
         Volver
       </Button>
       <Button color="primary" variant="contained" onClick={confirmPurchase}>

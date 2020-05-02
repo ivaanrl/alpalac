@@ -17,6 +17,9 @@ module.exports = function (sequelize, DataTypes) {
     address: {
       type: DataTypes.STRING,
     },
+    phoneNumber: {
+      type: DataTypes.STRING,
+    },
     role: {
       type: DataTypes.STRING,
       allowNull: false,

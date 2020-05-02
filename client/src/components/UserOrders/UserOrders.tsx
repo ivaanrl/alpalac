@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { CssBaseline, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import axios from '../../axios';
-import Order, { orderProps as orderInterface } from '../Order/Order';
+import UserOrder, {
+  userOrderProps as orderInterface,
+} from '../UserOrder/UserOrder';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -20,14 +22,15 @@ const useStyles = makeStyles({
   },
 });
 
-const Orders = () => {
+const UserOrders = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    (async function getIncompleteOrders() {
+    (async function getUserOrders() {
       const axiosResponse = await axios.get<orderInterface[]>(
-        '/orders/admin/incomplete_orders'
+        '/orders/get_orders'
       );
+      console.log(axiosResponse);
       if (axiosResponse.status == 200) {
         setOrders(axiosResponse.data);
       }
@@ -51,7 +54,7 @@ const Orders = () => {
             weight,
           } = order;
           return (
-            <Order
+            <UserOrder
               id={id}
               content={content}
               completed={completed}
@@ -68,4 +71,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default UserOrders;

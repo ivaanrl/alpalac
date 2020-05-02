@@ -112,7 +112,7 @@ const CheckoutForm = (props: FormikProps<FormValues>) => {
         <TextField
           id="phoneNumber"
           name="phoneNumber"
-          label="Número de Teléfono"
+          label="Número de Teléfono "
           type="number"
           helperText={touched.phoneNumber ? errors.phoneNumber : ''}
           error={touched.phoneNumber && Boolean(errors.phoneNumber)}

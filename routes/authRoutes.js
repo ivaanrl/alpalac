@@ -4,7 +4,6 @@ require('../services/passport');
 module.exports = (app) => {
   app.get(
     '/auth/google',
-    //addSocketIdToSession,
     passport.authenticate('google', { scope: ['profile'] })
   );
 
@@ -17,9 +16,7 @@ module.exports = (app) => {
         firstName: req.user.dataValues.firstName,
         lastName: req.user.dataValues.lastName,
       };
-      //req.user = user;
       res.redirect('http://localhost:3000/');
-      //res.redirect('/api/current_user');
     }
   );
 

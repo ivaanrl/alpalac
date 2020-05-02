@@ -17,8 +17,6 @@ import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import axios from '../../../axios';
 
 export interface DialogTitleProps extends WithStyles<typeof styles> {
   id: string;
@@ -26,7 +24,7 @@ export interface DialogTitleProps extends WithStyles<typeof styles> {
   onClose: () => void;
 }
 
-export interface orderProps {
+export interface userOrderProps {
   id: string;
   content: { id: string; name: string; price: number; link: string }[];
   completed: boolean;
@@ -114,32 +112,24 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-const Order = (props: orderProps) => {
-  console.log(props);
+const UserOrder = (props: userOrderProps) => {
   const classes = useStyles();
   const {
-    id,
     content,
     completed,
     address,
     firstname,
     lastname,
-    weight,
     createdate,
   } = props;
   const [open, setOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [isCompleted, setIsCompleted] = useState(completed);
-  const [isLoading, setIsLoading] = useState(false);
 
   let isCompletedIcon = <CancelIcon className={classes.completedIcon} />;
 
   if (isCompleted) {
     isCompletedIcon = <CheckCircleIcon className={classes.completedIcon} />;
-  }
-
-  if (isLoading) {
-    isCompletedIcon = <CircularProgress className={classes.completedIcon} />;
   }
 
   const handleClickOpen = () => {
@@ -157,21 +147,6 @@ const Order = (props: orderProps) => {
     setTotalPrice(newPrice);
   }, []);
 
-  const completeOrder = async () => {
-    setIsLoading(true);
-    const axiosResponse = await axios.post('/orders/admin/complete_order', {
-      id,
-    });
-
-    console.log(axiosResponse.status);
-    if (axiosResponse.status === 201) {
-      console.log('a');
-      setIsCompleted(true);
-      handleClose();
-    }
-    setIsLoading(false);
-  };
-
   return (
     <div className={classes.mainContainer}>
       <Button
@@ -180,8 +155,7 @@ const Order = (props: orderProps) => {
         onClick={handleClickOpen}
         className={classes.openDialogButton}
       >
-        Pedido de {firstname} {lastname} ({createdate.substr(0, 10)}){' '}
-        {isCompletedIcon}
+        ${totalPrice} - ({createdate.substr(0, 10)}){isCompletedIcon}
       </Button>
       <Dialog
         onClose={handleClose}
@@ -189,7 +163,7 @@ const Order = (props: orderProps) => {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Pedido de {firstname} {lastname} ({createdate.substr(0, 10)})
+          ${totalPrice} - ({createdate.substr(0, 10)})
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom className={classes.itemsContainer}>
@@ -214,16 +188,8 @@ const Order = (props: orderProps) => {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} variant="contained" color="primary">
             Cerrar
-          </Button>
-          <Button
-            autoFocus
-            variant="contained"
-            onClick={completeOrder}
-            color="primary"
-          >
-            Completar orden
           </Button>
         </DialogActions>
       </Dialog>
@@ -231,4 +197,4 @@ const Order = (props: orderProps) => {
   );
 };
 
-export default Order;
+export default UserOrder;

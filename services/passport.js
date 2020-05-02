@@ -18,6 +18,7 @@ passport.deserializeUser(async (id, cb) => {
       firstName: foundUser.firstName,
       lastName: foundUser.lastName,
       address: foundUser.address,
+      phoneNumber: foundUser.phoneNumber,
       role: foundUser.role,
     };
     cb(null, user);

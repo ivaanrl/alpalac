@@ -5,6 +5,8 @@ export const login = (payload: {
   firstName: string;
   lastName: string;
   role: string;
+  address: string;
+  phoneNumber: string;
 }) => {
   return {
     type: ActionTypes.login,

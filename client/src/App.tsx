@@ -9,6 +9,7 @@ import Checkout from './components/Checkout/Checkout';
 import Orders from './components/Orders/Orders';
 import AdminRoute from './guards/AdminRoute';
 import LoggedinRoute from './guards/LoggedinRoute';
+import UserOrders from './components/UserOrders/UserOrders';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Switch>
         <Route path="/category" component={Category} />
         <LoggedinRoute path="/checkout" Component={Checkout} />
+        <LoggedinRoute path="/myOrders" Component={UserOrders} />
         <AdminRoute path="/editItems" Component={EditItems} />
         <AdminRoute path="/orders" Component={Orders} />
         <Route path="/" exact component={HomePage} />

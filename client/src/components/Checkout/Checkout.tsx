@@ -21,8 +21,14 @@ const checkoutFormValidationSchhema = Yup.object({
   number: Yup.string().required('Debe ingresar altura.'),
   phoneNumber: Yup.string()
     .required('Debe ingresar un número de teléfono.')
-    .min(10, 'Ingrese un número de teléfono válido.')
-    .max(10, 'Ingrese un número de teléfono válido.'),
+    .min(
+      10,
+      'Ingrese un número de teléfono válido. Código de area. Sin 15. Ej: 2262452362'
+    )
+    .max(
+      10,
+      'Ingrese un número de teléfono válido. Código de area. Sin 15. Ej: 2262452362'
+    ),
 });
 
 export interface checkoutFormValues {
@@ -49,7 +55,7 @@ const Checkout = () => {
     lastName: user.lastName,
     street: user.street,
     number: user.number,
-    phoneNumber: 'user.phoneNumber',
+    phoneNumber: user.phoneNumber,
   };
 
   let pageShown;

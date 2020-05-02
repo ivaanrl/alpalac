@@ -35,6 +35,17 @@ module.exports = (app) => {
       res.send();
     }
   });
+
+  app.get('/orders/get_orders', checkAuth, async (req, res) => {
+    const orders = await getUserOrders(req.user.id);
+    if (orders) {
+      res.status(200);
+      res.send(orders);
+    } else {
+      res.status(500);
+      res.send();
+    }
+  });
 };
 
 const addOrder = async (order, userId) => {
@@ -46,10 +57,11 @@ const addOrder = async (order, userId) => {
       content: order.shoppingCart,
       completed: false,
     });
-    const user = await addUserAddress(
+    const user = await addUserAddressAndPhoneNumber(
       userId,
       order.user.street,
-      order.user.number
+      order.user.number,
+      order.user.phoneNumber
     );
     if (user) {
       return newOrder;
@@ -94,7 +106,27 @@ const completeOrder = async (orderId) => {
   }
 };
 
-const addUserAddress = async (userId, street, number) => {
+const getUserOrders = async (userId) => {
+  try {
+    const orders = await sequelize.query(
+      `
+      SELECT "id", "userId", "content", "completed", "createdAt" AS createdate, "updatedAt" 
+      FROM "orders" AS "order" 
+      WHERE "order"."userId" = '${userId}'
+      `
+    );
+    return orders[0];
+  } catch (error) {
+    return false;
+  }
+};
+
+const addUserAddressAndPhoneNumber = async (
+  userId,
+  street,
+  number,
+  phoneNumber
+) => {
   try {
     const user = await global.db.User.findOne({
       where: {
@@ -103,6 +135,7 @@ const addUserAddress = async (userId, street, number) => {
     });
     if (user) {
       user.address = street + ' ' + number;
+      user.phoneNumber = phoneNumber;
       await user.save();
     }
     return true;

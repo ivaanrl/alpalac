@@ -284,6 +284,8 @@ const Navbar = () => {
         firstName: string;
         lastName: string;
         role: string;
+        address: string;
+        phoneNumber: string;
       }>('api/current_user');
       dispatch(allActions.login(user.data));
     };
@@ -305,24 +307,28 @@ const Navbar = () => {
 
   if (user.firstName !== '' && user.lastName !== '') {
     authButtons = (
-      <a href="/api/logout" className={classes.aElement}>
-        <Button
-          variant="contained"
-          color="secondary"
-          disableElevation
-          className={classes.myOrders}
-        >
-          Mis pedidos
-        </Button>
-        <Button
-          variant="outlined"
-          color="secondary"
-          disableElevation
-          className={classes.logoutButton}
-        >
-          Cerrar Sesión
-        </Button>
-      </a>
+      <React.Fragment>
+        <NavLink to="/myOrders">
+          <Button
+            variant="contained"
+            color="secondary"
+            disableElevation
+            className={classes.myOrders}
+          >
+            Mis pedidos
+          </Button>
+        </NavLink>
+        <a href="/api/logout" className={classes.aElement}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            disableElevation
+            className={classes.logoutButton}
+          >
+            Cerrar Sesión
+          </Button>
+        </a>
+      </React.Fragment>
     );
   }
 

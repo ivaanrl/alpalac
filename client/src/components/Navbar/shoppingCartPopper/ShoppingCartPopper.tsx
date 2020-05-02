@@ -46,9 +46,15 @@ const useStyles = makeStyles((theme: Theme) =>
     textContainer: {
       display: 'flex',
       flexDirection: 'row',
+      alignItems: 'center',
     },
-    name: {},
-    price: {},
+    name: {
+      flexBasis: '50%',
+      maxWidth: '180px',
+    },
+    price: {
+      flexBasis: '50%',
+    },
     resume: {
       display: 'flex',
       alignItems: 'center',

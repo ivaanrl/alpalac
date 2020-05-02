@@ -24,17 +24,25 @@ export const user = (
       id: string;
       firstName: string;
       lastName: string;
-      street: string;
-      number: string;
+      address: string;
       role: string;
       phoneNumber: string;
     };
   }
 ) => {
-  console.log(action.payload);
   switch (action.type) {
     case ActionTypes.login: {
-      return { ...state, ...action.payload };
+      const newState = { ...state, ...action.payload };
+      if (newState.address) {
+        const address = newState.address.split(' ');
+
+        for (let i = 0; i < address.length - 1; i++) {
+          newState.street += address[i];
+        }
+        newState.number = address[address.length - 1];
+      }
+
+      return { ...state, ...newState };
     }
     case ActionTypes.logout: {
       return {
