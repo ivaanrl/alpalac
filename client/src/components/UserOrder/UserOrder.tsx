@@ -124,7 +124,7 @@ const UserOrder = (props: userOrderProps) => {
   } = props;
   const [open, setOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [isCompleted, setIsCompleted] = useState(completed);
+  const [isCompleted] = useState(completed);
 
   let isCompletedIcon = <CancelIcon className={classes.completedIcon} />;
 
@@ -145,12 +145,12 @@ const UserOrder = (props: userOrderProps) => {
       newPrice += item.price;
     });
     setTotalPrice(newPrice);
-  }, []);
+  }, [content]);
 
   return (
     <div className={classes.mainContainer}>
       <Button
-        variant="outlined"
+        variant="contained"
         color="primary"
         onClick={handleClickOpen}
         className={classes.openDialogButton}
@@ -161,6 +161,8 @@ const UserOrder = (props: userOrderProps) => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        fullWidth
+        maxWidth="md"
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           ${totalPrice} - ({createdate.substr(0, 10)})

@@ -17,7 +17,7 @@ const LoggedinRoute = (props: loggedinRouteProps) => {
     <Route
       path={path}
       render={() =>
-        user.role != '' ? (
+        user.role !== '' ? (
           <Component />
         ) : (
           <Redirect

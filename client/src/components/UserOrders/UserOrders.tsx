@@ -7,9 +7,12 @@ import UserOrder, {
 
 const useStyles = makeStyles({
   mainContainer: {
-    marginTop: '90px',
+    marginTop: '9vh',
+  },
+  orders: {
+    marginTop: '60px',
     maxHeight: '60%',
-    overflow: 'hidden',
+    overflowY: 'scroll',
     scrollbarWidth: 'none',
     msOverflowStyle: 'none',
     '&::-webkit-scrollbar': {
@@ -17,8 +20,16 @@ const useStyles = makeStyles({
       height: '0',
     },
   },
-  scrollable: {
-    //position: 'absolute',
+  title: {
+    marginTop: '3vh',
+    fontSize: '40px',
+    fontWeight: 'bold',
+    paddingBottom: '-5px',
+    width: '70%',
+    margin: 'auto',
+    marginLeft: '30%',
+    textAlign: 'left',
+    borderBottom: '1px solid #d9d4d4',
   },
 });
 
@@ -30,7 +41,6 @@ const UserOrders = () => {
       const axiosResponse = await axios.get<orderInterface[]>(
         '/orders/get_orders'
       );
-      console.log(axiosResponse);
       if (axiosResponse.status == 200) {
         setOrders(axiosResponse.data);
       }
@@ -41,7 +51,8 @@ const UserOrders = () => {
 
   return (
     <div className={classes.mainContainer}>
-      <div className={classes.scrollable}>
+      <div className={classes.title}>MIS PEDIDOS</div>
+      <div className={classes.orders}>
         {orders.map((order) => {
           const {
             id,

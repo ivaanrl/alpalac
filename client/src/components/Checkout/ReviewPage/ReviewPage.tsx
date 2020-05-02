@@ -16,12 +16,19 @@ export interface reviewPageProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     mainContainer: {
-      position: 'relative',
+      //position: 'relative',
       marginTop: '30px',
     },
     itemsContainer: {
       maxHeight: '60vh',
+
       overflowY: 'scroll',
+      scrollbarWidth: 'none',
+      msOverflowStyle: 'none',
+      '&::-webkit-scrollbar': {
+        width: '0',
+        height: '0',
+      },
     },
     itemContainer: {
       display: 'flex',

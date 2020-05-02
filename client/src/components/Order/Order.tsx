@@ -57,6 +57,7 @@ const styles = (theme: Theme) =>
       color: theme.palette.grey[500],
     },
   });
+
 const useStyles = makeStyles({
   mainContainer: {
     margin: 'auto',
@@ -80,6 +81,10 @@ const useStyles = makeStyles({
   },
   price: {
     marginRight: '15px',
+  },
+  dialog: {
+    minWidth: '80%',
+    maxWidth: '100% !important',
   },
 });
 
@@ -123,7 +128,6 @@ const Order = (props: orderProps) => {
     address,
     firstname,
     lastname,
-    weight,
     createdate,
   } = props;
   const [open, setOpen] = useState(false);
@@ -154,7 +158,7 @@ const Order = (props: orderProps) => {
       newPrice += item.price;
     });
     setTotalPrice(newPrice);
-  }, []);
+  }, [content]);
 
   const completeOrder = async () => {
     setIsLoading(true);
@@ -162,9 +166,7 @@ const Order = (props: orderProps) => {
       id,
     });
 
-    console.log(axiosResponse.status);
     if (axiosResponse.status === 201) {
-      console.log('a');
       setIsCompleted(true);
       handleClose();
     }
@@ -184,10 +186,12 @@ const Order = (props: orderProps) => {
       </Button>
       <Dialog
         onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
+        aria-labelledby="dialog-title"
         open={open}
+        fullWidth
+        maxWidth="md"
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <DialogTitle id="dialog-title" onClose={handleClose}>
           Pedido de {firstname} {lastname} ({createdate.substr(0, 10)})
         </DialogTitle>
         <DialogContent dividers>

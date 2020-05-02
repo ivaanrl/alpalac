@@ -21,6 +21,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ReorderIcon from '@material-ui/icons/Reorder';
 import useWindowDimensions from '../../shared/useWindowsDimensions';
 import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
@@ -220,9 +223,63 @@ const useStyles = makeStyles((theme: Theme) =>
       color: 'inherit',
     },
     myOrders: {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
       marginRight: '10px',
     },
-    logoutButton: {},
+    logoutButton: {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
+    accountButtonsList: {
+      display: 'none',
+      [theme.breakpoints.down('sm')]: {
+        display: 'block',
+      },
+    },
+    accountButtons: {
+      display: 'none',
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'left',
+        marginLeft: '15px',
+        fontWeight: 'bolder',
+        fontSize: '20px',
+        display: 'block',
+      },
+    },
+    logoutDrawer: {
+      display: 'none',
+      [theme.breakpoints.down('sm')]: {
+        display: 'inherit',
+      },
+    },
+    myOrdersDrawer: {
+      display: 'none',
+      [theme.breakpoints.down('sm')]: {
+        display: 'inherit',
+      },
+    },
+    loginDrawer: {
+      display: 'none',
+      [theme.breakpoints.down('sm')]: {
+        display: 'inherit',
+      },
+    },
+    signinDrawer: {
+      display: 'none',
+      cursor: 'pointer',
+      fontWeight: 'bold',
+      backgroundColor: `${theme.palette.primary.main}`,
+      borderRadius: '5px',
+      marginRight: '10px',
+      marginLeft: '10px',
+      color: `${theme.palette.secondary.main}`,
+      [theme.breakpoints.down('sm')]: {
+        display: 'inherit',
+      },
+    },
   })
 );
 
@@ -310,7 +367,7 @@ const Navbar = (props: RouteComponentProps) => {
   if (user.firstName !== '' && user.lastName !== '') {
     authButtons = (
       <React.Fragment>
-        <NavLink to="/myOrders">
+        <NavLink to="/myOrders" className={classes.aElement}>
           <Button
             variant="contained"
             color="secondary"
@@ -364,38 +421,46 @@ const Navbar = (props: RouteComponentProps) => {
       case 'Carrito':
         return (
           <NavLink to="/shoppingCart" className={classes.navLink}>
-            <ListItemIcon>
-              <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItem button key={text}>
+              <ListItemIcon>
+                <ShoppingCartIcon />
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
           </NavLink>
         );
       case 'Agregar/Editar':
         return (
           <NavLink to="/editItems" className={classes.navLink}>
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItem button key={text}>
+              <ListItemIcon>
+                <AddIcon />
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
           </NavLink>
         );
       case 'Pedidos pendientes':
         return (
           <NavLink to="/orders" className={classes.navLink}>
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItem button key={text}>
+              <ListItemIcon>
+                <AddIcon />
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
           </NavLink>
         );
       default:
         return (
           <React.Fragment>
             <NavLink to="/category/quesos" className={classes.navLink}>
-              <ListItemIcon>
-                <KitchenIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  <KitchenIcon />
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
             </NavLink>
           </React.Fragment>
         );
@@ -525,11 +590,7 @@ const Navbar = (props: RouteComponentProps) => {
           <List>
             <div className={classes.categories}>Categorías</div>
 
-            {userNavigation.map((text, index) => (
-              <ListItem button key={text}>
-                {chooseNavItem(text)}
-              </ListItem>
-            ))}
+            {userNavigation.map((text, index) => chooseNavItem(text))}
           </List>
           <Divider />
           <List>
@@ -546,11 +607,7 @@ const Navbar = (props: RouteComponentProps) => {
             <React.Fragment>
               <Divider />
               <List>
-                {adminNavigation.map((text, index) => (
-                  <ListItem button key={text}>
-                    {chooseNavItem(text)}
-                  </ListItem>
-                ))}
+                {adminNavigation.map((text, index) => chooseNavItem(text))}
               </List>
             </React.Fragment>
           ) : null}
@@ -580,35 +637,58 @@ const Navbar = (props: RouteComponentProps) => {
               </IconButton>
             </div>
             <Divider />
+            <List className={classes.accountButtonsList}>
+              {user.role != '' ? (
+                <React.Fragment>
+                  <div className={classes.accountButtons}>Mi cuenta</div>
+                  <NavLink
+                    to="/myOrders"
+                    className={classes.navLink + ' ' + classes.myOrdersDrawer}
+                  >
+                    <ListItem button>
+                      <ListItemIcon>
+                        <ReorderIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Mis pedidos" />
+                    </ListItem>
+                  </NavLink>
+                  <a
+                    href="/api/logout"
+                    className={classes.navLink + ' ' + classes.logoutDrawer}
+                  >
+                    <ListItem button>
+                      <ListItemIcon>
+                        <ExitToAppIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Cerrar Sesión" />
+                    </ListItem>
+                  </a>
+                </React.Fragment>
+              ) : (
+                <div
+                  onClick={handleOpen}
+                  className={classes.navLink + ' ' + classes.signinDrawer}
+                >
+                  <ListItem button>
+                    <ListItemIcon>
+                      <AccountCircleIcon color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText primary="Iniciar sesión" />
+                  </ListItem>
+                </div>
+              )}
+              <Divider />
+            </List>
             <List>
               <div className={classes.categories}>Categorías</div>
 
-              {userNavigation.map((text, index) => (
-                <ListItem button key={text}>
-                  {chooseNavItem(text)}
-                </ListItem>
-              ))}
-            </List>
-            <Divider />
-            <List>
-              {['Carrito'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>
-                    <ShoppingCartIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
+              {userNavigation.map((text, index) => chooseNavItem(text))}
             </List>
             {user.role === 'admin' ? (
               <React.Fragment>
                 <Divider />
                 <List>
-                  {adminNavigation.map((text, index) => (
-                    <ListItem button key={text}>
-                      {chooseNavItem(text)}
-                    </ListItem>
-                  ))}
+                  {adminNavigation.map((text, index) => chooseNavItem(text))}
                 </List>
               </React.Fragment>
             ) : null}

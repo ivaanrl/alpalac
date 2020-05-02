@@ -5,7 +5,10 @@ import Order, { orderProps as orderInterface } from '../Order/Order';
 
 const useStyles = makeStyles({
   mainContainer: {
-    marginTop: '90px',
+    marginTop: '9vh',
+  },
+  orders: {
+    marginTop: '60px',
     maxHeight: '60%',
     overflow: 'hidden',
     scrollbarWidth: 'none',
@@ -15,8 +18,16 @@ const useStyles = makeStyles({
       height: '0',
     },
   },
-  scrollable: {
-    //position: 'absolute',
+  title: {
+    marginTop: '3vh',
+    fontSize: '40px',
+    fontWeight: 'bold',
+    paddingBottom: '-5px',
+    width: '70%',
+    margin: 'auto',
+    marginLeft: '30%',
+    textAlign: 'left',
+    borderBottom: '1px solid #d9d4d4',
   },
 });
 
@@ -38,7 +49,8 @@ const Orders = () => {
 
   return (
     <div className={classes.mainContainer}>
-      <div className={classes.scrollable}>
+      <div className={classes.title}>Pedidos</div>
+      <div className={classes.orders}>
         {orders.map((order) => {
           const {
             id,

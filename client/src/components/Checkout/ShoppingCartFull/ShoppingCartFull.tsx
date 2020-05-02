@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreState } from '../../../reducers';
 import {
@@ -77,13 +77,13 @@ const ShoppingCartFull = (props: shoppingCartFullProps) => {
     forceUpdate();
   };
 
-  const getTotalPrice = () => {
-    let totalPrice = 0;
-    shoppingCartItems.forEach((item) => {
-      totalPrice += item.price;
-    });
-    return totalPrice;
-  };
+  //const getTotalPrice = () => {
+  //  let totalPrice = 0;
+  //  shoppingCartItems.forEach((item) => {
+  //    totalPrice += item.price;
+  //  });
+  //  return totalPrice;
+  //};
 
   return (
     <Container maxWidth="lg" className={classes.mainContainer}>

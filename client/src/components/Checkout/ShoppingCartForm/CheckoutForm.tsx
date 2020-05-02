@@ -19,7 +19,6 @@ export interface FormValues {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     checkoutForm: {
-      marginTop: '3%',
       margin: 'auto',
       display: 'flex',
       flexDirection: 'column',
@@ -33,9 +32,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       margin: 'auto',
-      marginTop: '12%',
-      fontSize: '24px',
+      marginTop: '3vh',
+      marginBottom: '60px',
+      fontSize: '40px',
       fontWeight: 'bold',
+      paddingBottom: '-5px',
+      width: '70%',
+      marginLeft: '30%',
+      textAlign: 'left',
+      borderBottom: '1px solid #d9d4d4',
     },
   })
 );
@@ -61,7 +66,7 @@ const CheckoutForm = (props: FormikProps<FormValues>) => {
 
   return (
     <React.Fragment>
-      <div className={classes.title}>Información personal</div>
+      <div className={classes.title}>INFORMACIÓN PERSONAL</div>
       <form onSubmit={handleSubmit} className={classes.checkoutForm}>
         <TextField
           id="name"

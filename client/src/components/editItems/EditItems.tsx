@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     tabContainer: {
       marginBottom: '15px',
+      marginTop: '8vh',
     },
     itemsContainer: {
       width: '65%',
@@ -100,26 +101,6 @@ interface TabPanelProps {
   children?: React.ReactNode;
   index: any;
   value: any;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`scrollable-auto-tabpanel-${index}`}
-      aria-labelledby={`scrollable-auto-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
 }
 
 function a11yProps(index: any) {

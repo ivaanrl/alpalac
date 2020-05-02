@@ -108,7 +108,7 @@ const Checkout = () => {
     pageShown = <div>Compra realizada</div>;
   }
 
-  return <div>{pageShown} </div>;
+  return <div style={{ marginTop: '9vh' }}>{pageShown} </div>;
 };
 
 export default Checkout;
