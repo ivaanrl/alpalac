@@ -591,17 +591,6 @@ const Navbar = (props: RouteComponentProps) => {
 
             {userNavigation.map((text, index) => chooseNavItem(text))}
           </List>
-          <Divider />
-          <List>
-            {['Carrito'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  <ShoppingCartIcon />
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
           {user.role === 'admin' ? (
             <React.Fragment>
               <Divider />

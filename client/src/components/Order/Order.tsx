@@ -176,7 +176,7 @@ const Order = (props: orderProps) => {
   return (
     <div className={classes.mainContainer}>
       <Button
-        variant="outlined"
+        variant="contained"
         color="primary"
         onClick={handleClickOpen}
         className={classes.openDialogButton}

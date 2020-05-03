@@ -11,6 +11,7 @@ import AdminRoute from './guards/AdminRoute';
 import LoggedinRoute from './guards/LoggedinRoute';
 import UserOrders from './components/UserOrders/UserOrders';
 import ItemsSearch from './components/ItemsSearch/ItemsSearch';
+import 'typeface-roboto';
 
 function App() {
   return (

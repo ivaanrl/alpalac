@@ -9,8 +9,8 @@ import Items from '../Items/Items';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import axios from '../../axios';
 import { itemInterface as Item } from '../Items/Item/Item';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
+import InfiniteScroll from 'react-infinite-scroller';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -25,6 +25,10 @@ const useStyles = makeStyles(() =>
       //},
       marginTop: '5vh',
     },
+    infiniteScroll: {
+      overflowX: 'hidden',
+      overflowY: 'hidden',
+    },
   })
 );
 
@@ -34,24 +38,54 @@ const Category = (props: RouteComponentProps) => {
 
   const [items, setItems] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
+  const category = location.pathname.split('/')[2];
 
   useEffect(() => {
-    const category = location.pathname.split('/')[2];
     (async function getItemsByCategory() {
-      const items = await axios.get<Item[]>('/items/' + category);
+      const items = await axios.get<Item[]>('/items/' + category + '/0');
       setItems(items.data);
       setIsLoading(false);
     })();
   }, [location]);
 
+  const handleScroll = async () => {
+    const receivedItems = await axios.get<Item[]>(
+      '/items/' + category + '/' + page
+    );
+    const newItems = items;
+    if (receivedItems.status === 202) {
+      receivedItems.data.forEach((item: Item) => {
+        newItems.push(item);
+      });
+      setItems(newItems);
+    } else if (receivedItems.status === 206) {
+      setHasMore(false);
+    }
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="lg" className={classes.container}>
+      <Container
+        maxWidth="xl"
+        className={classes.container}
+        onScroll={handleScroll}
+        key="container"
+      >
         {isLoading ? (
-          <CircularProgress style={{ marginTop: '50px' }} />
+          <CircularProgress style={{ marginTop: '50px' }} key={0} />
         ) : (
-          <Items itemsArr={items} />
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={handleScroll}
+            hasMore={hasMore}
+            loader={<CircularProgress />}
+          >
+            <Items itemsArr={items} key="items" />
+          </InfiniteScroll>
         )}
       </Container>
     </React.Fragment>

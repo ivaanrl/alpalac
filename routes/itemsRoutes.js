@@ -12,9 +12,15 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/items/:category', async (req, res) => {
+  app.get('/items/:category/:page', async (req, res) => {
     const category = req.params.category;
-    const items = await getItemByCategory(category);
+    const page = req.params.page;
+    const items = await getItemByCategory(category, page);
+    if (items.length < 9) {
+      res.status(206);
+    } else {
+      res.status(202);
+    }
     res.send(items);
   });
 
@@ -32,11 +38,16 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/items/search/:searchterms', async (req, res) => {
+  app.get('/items/search/:searchterms/:page', async (req, res) => {
     try {
       const searchTerm = req.params.searchterms;
-      const items = await getItemsBySearch(searchTerm);
-      res.status(201);
+      const page = req.params.page;
+      const items = await getItemsBySearch(searchTerm, page);
+      if (items.length < 9) {
+        res.status(206);
+      } else {
+        res.status(202);
+      }
       res.send(items);
     } catch (error) {
       res.status(500);
@@ -87,11 +98,15 @@ const addItem = async (item) => {
   }
 };
 
-const getItemByCategory = async (category) => {
+const getItemByCategory = async (category, page) => {
+  const offset = parseInt(page, 10) * 9;
   return await global.db.Item.findAll({
     where: {
       category,
     },
+    offset,
+    limit: 9,
+    subQuery: false,
   });
 };
 
@@ -109,12 +124,15 @@ const editItem = async (item) => {
   }
 };
 
-const getItemsBySearch = async (searchTerm) => {
+const getItemsBySearch = async (searchTerm, page) => {
   searchTerm = searchTerm.split('+');
+  const offset = parseInt(page, 10) * 9;
   try {
     const items = await sequelize.query(`
       SELECT * FROM items 
       WHERE '{${searchTerm}}' && tags
+      LIMIT 9
+      OFFSET ${offset}
     `);
     return items[0];
   } catch (error) {
