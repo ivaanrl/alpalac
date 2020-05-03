@@ -4,30 +4,55 @@ import { itemInterface } from '../Items/Item/Item';
 import axios from '../../axios';
 import { Container, CircularProgress } from '@material-ui/core';
 import Items from '../Items/Items';
+import InfiniteScroll from 'react-infinite-scroller';
 
 const ItemsSearch = () => {
   const [items, setItems] = useState<itemInterface[]>([]);
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
+  const searchTerms = location.search.substr(13); //get only search terms
   useEffect(() => {
-    const searchTerms = location.search.substr(13); //get only search terms
-
     (async function getItemsBySearch() {
       const items = await axios.get<itemInterface[]>(
-        '/items/search/' + searchTerms
+        '/items/search/' + searchTerms + '/0'
       );
       setItems(items.data);
       setIsLoading(false);
     })();
-  }, [location]);
+  }, [location, searchTerms]);
+
+  const handleScroll = async () => {
+    const receivedItems = await axios.get<itemInterface[]>(
+      '/items/search/' + searchTerms + '/' + page
+    );
+    const newItems = items;
+    if (receivedItems.status === 202) {
+      receivedItems.data.forEach((item: itemInterface) => {
+        newItems.push(item);
+      });
+      setPage(page + 1);
+      setItems(newItems);
+    } else if (receivedItems.status === 206) {
+      setHasMore(false);
+    }
+  };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" key="container">
       {isLoading ? (
-        <CircularProgress style={{ marginTop: '50px' }} />
+        <CircularProgress style={{ marginTop: '50px' }} key={0} />
       ) : (
-        <Items itemsArr={items} />
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={handleScroll}
+          hasMore={hasMore}
+          loader={<CircularProgress key={1} />}
+        >
+          <Items itemsArr={items} key="items" />
+        </InfiniteScroll>
       )}
     </Container>
   );

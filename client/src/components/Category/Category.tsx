@@ -15,14 +15,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 const useStyles = makeStyles(() =>
   createStyles({
     container: {
-      //maxHeight: '95vh',
-      //overflowY: 'scroll',
-      //scrollbarWidth: 'none',
-      //msOverflowStyle: 'none',
-      //'&::-webkit-scrollbar': {
-      //  width: '0%',
-      //  background: 'transparent',
-      //},
       marginTop: '5vh',
     },
     infiniteScroll: {
@@ -49,7 +41,7 @@ const Category = (props: RouteComponentProps) => {
       setItems(items.data);
       setIsLoading(false);
     })();
-  }, [location]);
+  }, [location, category]);
 
   const handleScroll = async () => {
     const receivedItems = await axios.get<Item[]>(
@@ -60,6 +52,7 @@ const Category = (props: RouteComponentProps) => {
       receivedItems.data.forEach((item: Item) => {
         newItems.push(item);
       });
+      setPage(page + 1);
       setItems(newItems);
     } else if (receivedItems.status === 206) {
       setHasMore(false);
@@ -69,12 +62,7 @@ const Category = (props: RouteComponentProps) => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container
-        maxWidth="xl"
-        className={classes.container}
-        onScroll={handleScroll}
-        key="container"
-      >
+      <Container maxWidth="lg" className={classes.container} key="container">
         {isLoading ? (
           <CircularProgress style={{ marginTop: '50px' }} key={0} />
         ) : (
@@ -82,7 +70,7 @@ const Category = (props: RouteComponentProps) => {
             pageStart={0}
             loadMore={handleScroll}
             hasMore={hasMore}
-            loader={<CircularProgress />}
+            loader={<CircularProgress key={1} />}
           >
             <Items itemsArr={items} key="items" />
           </InfiniteScroll>

@@ -11,6 +11,7 @@ import {
 
 export interface reviewPageProps {
   confirmPurchase: () => void;
+  prevPage: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -101,7 +102,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ReviewPage = (props: reviewPageProps) => {
   const classes = useStyles();
-  const { confirmPurchase } = props;
+  const { confirmPurchase, prevPage } = props;
 
   const user = useSelector((state: StoreState) => state.user);
   const shoppingCartItems = useSelector(
@@ -159,6 +160,7 @@ const ReviewPage = (props: reviewPageProps) => {
         color="secondary"
         variant="contained"
         className={classes.backButton}
+        onClick={prevPage}
       >
         Volver
       </Button>

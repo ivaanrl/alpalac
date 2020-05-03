@@ -57,10 +57,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface shoppingCartFullProps {
   nextPage: () => void;
+  prevPage: () => void;
 }
 
 const ShoppingCartFull = (props: shoppingCartFullProps) => {
-  const { nextPage } = props;
+  const { nextPage, prevPage } = props;
 
   const classes = useStyles();
 
@@ -115,6 +116,7 @@ const ShoppingCartFull = (props: shoppingCartFullProps) => {
           variant="contained"
           color="secondary"
           className={classes.backButton}
+          onClick={prevPage}
         >
           Volver
         </Button>

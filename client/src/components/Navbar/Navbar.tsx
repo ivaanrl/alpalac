@@ -27,6 +27,7 @@ import ReorderIcon from '@material-ui/icons/Reorder';
 import useWindowDimensions from '../../shared/useWindowsDimensions';
 import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
+import LocalPizzaIcon from '@material-ui/icons/LocalPizza';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -449,6 +450,32 @@ const Navbar = (props: RouteComponentProps) => {
               <ListItemText primary={text} />
             </ListItem>
           </NavLink>
+        );
+      case 'Quesos':
+        return (
+          <React.Fragment>
+            <NavLink to="/category/quesos" className={classes.navLink}>
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  <KitchenIcon />
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            </NavLink>
+          </React.Fragment>
+        );
+      case 'Pizzas':
+        return (
+          <React.Fragment>
+            <NavLink to="/category/pizzas" className={classes.navLink}>
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  <LocalPizzaIcon />
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            </NavLink>
+          </React.Fragment>
         );
       default:
         return (

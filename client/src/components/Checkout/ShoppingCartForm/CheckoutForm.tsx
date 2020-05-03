@@ -16,6 +16,10 @@ export interface FormValues {
   phoneNumber: string;
 }
 
+export interface checkoutFormProps {
+  prevPage: () => void;
+}
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     checkoutForm: {
@@ -45,11 +49,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const CheckoutForm = (props: FormikProps<FormValues>) => {
+const CheckoutForm = (props: FormikProps<FormValues> & checkoutFormProps) => {
   const classes = useStyles();
 
   const {
     values: { name, lastName, street, number, phoneNumber },
+    prevPage,
     errors,
     touched,
     handleSubmit,
@@ -126,6 +131,9 @@ const CheckoutForm = (props: FormikProps<FormValues>) => {
           fullWidth
         />
 
+        <Button variant="contained" color="secondary" onClick={prevPage}>
+          Volver
+        </Button>
         <Button type="submit" variant="contained" color="primary">
           Comprar
         </Button>

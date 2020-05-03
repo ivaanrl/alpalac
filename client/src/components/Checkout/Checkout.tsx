@@ -9,6 +9,7 @@ import { StoreState } from '../../reducers';
 import ReviewPage from './ReviewPage/ReviewPage';
 import axios from '../../axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ThankYouPage from './ThankYouPage/ThankYouPage';
 
 const checkoutFormValidationSchhema = Yup.object({
   name: Yup.string()
@@ -64,6 +65,10 @@ const Checkout = () => {
     setPage(page + 1);
   };
 
+  const prevPage = () => {
+    setPage(page - 1);
+  };
+
   const saveUserInfo = (
     values: checkoutFormValues,
     actions: FormikHelpers<checkoutFormValues>
@@ -85,7 +90,7 @@ const Checkout = () => {
   };
 
   if (page === 1) {
-    pageShown = <ShoppingCartFull nextPage={nextPage} />;
+    pageShown = <ShoppingCartFull nextPage={nextPage} prevPage={prevPage} />;
   } else if (page === 2) {
     pageShown = (
       <Formik
@@ -95,17 +100,17 @@ const Checkout = () => {
           saveUserInfo(values, actions);
           nextPage();
         }}
-        render={(props) => <CheckoutForm {...props} />}
+        render={(props) => <CheckoutForm {...props} prevPage={prevPage} />}
       />
     );
   } else if (page === 3) {
     pageShown = isLoading ? (
       <CircularProgress style={{ marginTop: '50px' }} />
     ) : (
-      <ReviewPage confirmPurchase={confirmPurchase} />
+      <ReviewPage confirmPurchase={confirmPurchase} prevPage={prevPage} />
     );
   } else if (page === 4) {
-    pageShown = <div>Compra realizada</div>;
+    pageShown = <ThankYouPage />;
   }
 
   return <div style={{ marginTop: '9vh' }}>{pageShown} </div>;

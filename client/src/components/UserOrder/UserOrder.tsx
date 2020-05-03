@@ -79,6 +79,9 @@ const useStyles = makeStyles({
   price: {
     marginRight: '15px',
   },
+  totalPrice: {
+    width: '90%',
+  },
 });
 
 const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
@@ -155,7 +158,10 @@ const UserOrder = (props: userOrderProps) => {
         onClick={handleClickOpen}
         className={classes.openDialogButton}
       >
-        ${totalPrice} - ({createdate.substr(0, 10)}){isCompletedIcon}
+        <div className={classes.totalPrice}>
+          ${totalPrice} - ({createdate.substr(0, 10)})
+        </div>
+        {isCompletedIcon}
       </Button>
       <Dialog
         onClose={handleClose}

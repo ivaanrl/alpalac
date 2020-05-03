@@ -12,18 +12,6 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/items/:category/:page', async (req, res) => {
-    const category = req.params.category;
-    const page = req.params.page;
-    const items = await getItemByCategory(category, page);
-    if (items.length < 9) {
-      res.status(206);
-    } else {
-      res.status(202);
-    }
-    res.send(items);
-  });
-
   app.post('/items/editItems', async (req, res) => {
     try {
       const items = req.body;
@@ -53,6 +41,34 @@ module.exports = (app) => {
       res.status(500);
       res.send();
     }
+  });
+
+  app.get('/items/get_all/:page', async (req, res) => {
+    try {
+      const page = req.params.page;
+      const items = await getAllItems(page);
+      if (items.length < 9) {
+        res.status(206);
+      } else {
+        res.status(202);
+      }
+      res.send(items);
+    } catch (error) {
+      res.status(500);
+      res.send(error);
+    }
+  });
+
+  app.get('/items/:category/:page', async (req, res) => {
+    const category = req.params.category;
+    const page = req.params.page;
+    const items = await getItemByCategory(category, page);
+    if (items.length < 9) {
+      res.status(206);
+    } else {
+      res.status(202);
+    }
+    res.send(items);
   });
 };
 
@@ -100,14 +116,33 @@ const addItem = async (item) => {
 
 const getItemByCategory = async (category, page) => {
   const offset = parseInt(page, 10) * 9;
-  return await global.db.Item.findAll({
-    where: {
-      category,
-    },
-    offset,
-    limit: 9,
-    subQuery: false,
-  });
+  try {
+    return await global.db.Item.findAll({
+      where: {
+        category,
+      },
+      offset,
+      limit: 9,
+      subQuery: false,
+    });
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+const getAllItems = async (page) => {
+  const offset = parseInt(page, 10) * 9;
+  try {
+    return await global.db.Item.findAll({
+      offset,
+      limit: 9,
+      subQuery: false,
+    });
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 };
 
 const editItem = async (item) => {
