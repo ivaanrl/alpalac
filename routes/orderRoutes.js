@@ -46,6 +46,23 @@ module.exports = (app) => {
       res.send();
     }
   });
+
+  app.get('/orders/admin/all_orders/:page', checkAdmin, async (req, res) => {
+    try {
+      const page = req.params.page;
+      const orders = await getAllOrders(page);
+      if (orders.length < 9) {
+        res.status(206);
+        res.send(orders);
+      } else {
+        res.status(202);
+        res.send();
+      }
+    } catch (error) {
+      res.status(500);
+      res.send();
+    }
+  });
 };
 
 const addOrder = async (order, userId) => {
@@ -68,6 +85,22 @@ const addOrder = async (order, userId) => {
     }
     return false;
   } catch (error) {
+    return false;
+  }
+};
+
+const getAllOrders = async (page) => {
+  const offset = parseInt(page, 10) * 9;
+  try {
+    const orders = await global.db.Order.findAll({
+      offset,
+      limit: 9,
+      subQuery: false,
+      order: [['createdAt', 'DESC']],
+    });
+    return orders;
+  } catch (error) {
+    console.log(error);
     return false;
   }
 };

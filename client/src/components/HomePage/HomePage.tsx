@@ -43,13 +43,12 @@ const HomePage = () => {
   const handleScroll = async () => {
     const receivedItems = await axios.get<Item[]>('/items/get_all/' + page);
     const newItems = items;
-    if (receivedItems.status === 202) {
-      receivedItems.data.forEach((item: Item) => {
-        newItems.push(item);
-      });
-      setPage(page + 1);
-      setItems(newItems);
-    } else if (receivedItems.status === 206) {
+    receivedItems.data.forEach((item: Item) => {
+      newItems.push(item);
+    });
+    setPage(page + 1);
+    setItems(newItems);
+    if (receivedItems.status === 206) {
       setHasMore(false);
     }
   };

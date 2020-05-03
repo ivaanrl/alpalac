@@ -12,6 +12,7 @@ import LoggedinRoute from './guards/LoggedinRoute';
 import UserOrders from './components/UserOrders/UserOrders';
 import ItemsSearch from './components/ItemsSearch/ItemsSearch';
 import 'typeface-roboto';
+import AllOrders from './components/AllOrders/AllOrders';
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
         <LoggedinRoute path="/checkout" Component={Checkout} />
         <LoggedinRoute path="/myOrders" Component={UserOrders} />
         <AdminRoute path="/editItems" Component={EditItems} />
-        <AdminRoute path="/orders" Component={Orders} />
+        <AdminRoute path="/admin/orders" Component={Orders} />
+        <AdminRoute path="/admin/allOrders" Component={AllOrders} />
         <Route path="/search/item" component={ItemsSearch} />
         <Route path="/" exact component={HomePage} />
       </Switch>

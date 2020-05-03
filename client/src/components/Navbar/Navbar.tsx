@@ -442,7 +442,7 @@ const Navbar = (props: RouteComponentProps) => {
         );
       case 'Pedidos pendientes':
         return (
-          <NavLink to="/orders" className={classes.navLink}>
+          <NavLink to="/admin/orders" className={classes.navLink}>
             <ListItem button key={text}>
               <ListItemIcon>
                 <AddIcon />
@@ -476,6 +476,17 @@ const Navbar = (props: RouteComponentProps) => {
               </ListItem>
             </NavLink>
           </React.Fragment>
+        );
+      case 'Todos los pedidos':
+        return (
+          <NavLink to="/admin/allOrders" className={classes.navLink}>
+            <ListItem button key={text}>
+              <ListItemIcon>
+                <AddIcon />
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          </NavLink>
         );
       default:
         return (
