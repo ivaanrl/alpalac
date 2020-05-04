@@ -9,8 +9,8 @@ if (!global.hasOwnProperty('db')) {
         protocol: 'postgres',
         logging: true, //false
         dialectOptions: {
-          //ssl: true,
-          //rejectUnauthorized: false,
+          ssl: true,
+          rejectUnauthorized: false,
         },
       });
     } catch (error) {

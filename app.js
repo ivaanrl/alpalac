@@ -5,9 +5,6 @@ const session = require('express-session');
 const db = require('./models');
 //const { Pool } = require('pg');
 
-//const dotenv = require("dotenv");
-//dotenv.config();
-
 const app = express();
 const corsOptions = {
   origin: 'http://localhost:3000',
