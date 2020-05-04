@@ -352,6 +352,7 @@ const Navbar = (props: RouteComponentProps) => {
         address: string;
         phoneNumber: string;
       }>('api/current_user');
+      console.log(user);
       dispatch(allActions.login(user.data));
     };
     getUser();
@@ -371,7 +372,7 @@ const Navbar = (props: RouteComponentProps) => {
     </Button>
   );
 
-  if (user.firstName !== '' && user.lastName !== '') {
+  if (user.role !== '') {
     authButtons = (
       <React.Fragment>
         <NavLink to="/myOrders" className={classes.aElement}>
