@@ -351,7 +351,7 @@ const Navbar = (props: RouteComponentProps) => {
         role: string;
         address: string;
         phoneNumber: string;
-      }>('api/current_user');
+      }>('/current_user');
       console.log(user);
       dispatch(allActions.login(user.data));
     };
