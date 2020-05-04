@@ -53,7 +53,6 @@ require('./routes/orderRoutes')(app);
 const PORT = process.env.PORT || 5000;
 
 if (process.env.NODE_ENV === 'production') {
-  console.log('proddddddddddddd');
   const path = require('path');
   //Express will serve up production asses like main.js
   //or main.css files
@@ -66,7 +65,6 @@ if (process.env.NODE_ENV === 'production') {
   //  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   //});
   app.get('/*', function (req, res) {
-    console.log('this is actually working');
     res.sendFile(path.resolve(__dirname, 'client/build', 'index.html'));
   });
 }

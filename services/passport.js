@@ -3,6 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const keys = require('../config/keys');
 
 passport.serializeUser((user, cb) => {
+  console.log('Serialize:', user);
   cb(null, user.id);
 });
 
@@ -21,6 +22,7 @@ passport.deserializeUser(async (id, cb) => {
       phoneNumber: foundUser.phoneNumber,
       role: foundUser.role,
     };
+    console.log('deserialize', user);
     cb(null, user);
   } catch (error) {
     cb(null, null);

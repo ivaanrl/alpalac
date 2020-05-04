@@ -16,6 +16,8 @@ module.exports = (app) => {
         firstName: req.user.dataValues.firstName,
         lastName: req.user.dataValues.lastName,
       };
+      console.log('callback google');
+      console.log(req.user);
       if (process.env.NODE_ENV === 'production') {
         res.redirect('/');
       } else {
