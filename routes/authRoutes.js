@@ -16,13 +16,21 @@ module.exports = (app) => {
         firstName: req.user.dataValues.firstName,
         lastName: req.user.dataValues.lastName,
       };
-      res.redirect('http://localhost:3000/');
+      if (process.env.NODE_ENV === 'production') {
+        res.redirect('/');
+      } else {
+        res.redirect('http://localhost:3000/');
+      }
     }
   );
 
   app.get('/api/logout', (req, res) => {
     req.logout();
-    res.redirect('http://localhost:3000/');
+    if (process.env.NODE_ENV === 'production') {
+      res.redirect('/');
+    } else {
+      res.redirect('http://localhost:3000/');
+    }
   });
 
   app.get('/api/current_user', (req, res) => {
