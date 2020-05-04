@@ -2,6 +2,7 @@ if (!global.hasOwnProperty('db')) {
   const Sequelize = require('sequelize');
   sequelize = null;
 
+  console.log(process.env.DATABASE_URL);
   if (process.env.DATABASE_URL) {
     try {
       sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -26,8 +27,8 @@ if (!global.hasOwnProperty('db')) {
   }
 
   global.db = {
-    Sequelize,
-    sequelize,
+    Sequelize: Sequelize,
+    sequelize: sequelize,
     User: sequelize.import(__dirname + '/user'),
     Order: sequelize.import(__dirname + '/order'),
     Item: sequelize.import(__dirname + '/item'),
