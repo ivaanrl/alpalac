@@ -41,15 +41,17 @@ const Orders = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    (async function getIncompleteOrders() {
-      const axiosResponse = await axios.get<orderInterface[]>(
-        '/orders/admin/incomplete_orders'
-      );
-      if (axiosResponse.status === 200) {
-        setOrders(axiosResponse.data);
-      }
-    })();
+    getIncompleteOrders();
   }, []);
+
+  const getIncompleteOrders = async () => {
+    const axiosResponse = await axios.get<orderInterface[]>(
+      '/orders/admin/incomplete_orders'
+    );
+    if (axiosResponse.status === 200) {
+      setOrders(axiosResponse.data);
+    }
+  };
 
   const [orders, setOrders] = useState<orderInterface[]>([]);
 

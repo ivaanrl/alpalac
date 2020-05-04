@@ -10,19 +10,21 @@ const ItemsSearch = () => {
   const [items, setItems] = useState<itemInterface[]>([]);
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
   const searchTerms = location.search.substr(13); //get only search terms
   useEffect(() => {
-    (async function getItemsBySearch() {
-      const items = await axios.get<itemInterface[]>(
-        '/items/search/' + searchTerms + '/0'
-      );
-      setItems(items.data);
-      setIsLoading(false);
-    })();
+    getItemsBySearch();
   }, [location, searchTerms]);
+
+  const getItemsBySearch = async () => {
+    const items = await axios.get<itemInterface[]>(
+      '/items/search/' + searchTerms + '/0'
+    );
+    setItems(items.data);
+    setIsLoading(false);
+  };
 
   const handleScroll = async () => {
     const receivedItems = await axios.get<itemInterface[]>(

@@ -34,16 +34,18 @@ const HomePage = () => {
 
   const [items, setItems] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    (async function getItemsByCategory() {
-      const items = await axios.get<Item[]>('/items/get_all/0');
-      setItems(items.data);
-      setIsLoading(false);
-    })();
+    getItems();
   }, []);
+
+  const getItems = async () => {
+    const items = await axios.get<Item[]>('/items/get_all/0');
+    setItems(items.data);
+    setIsLoading(false);
+  };
 
   const handleScroll = async () => {
     const receivedItems = await axios.get<Item[]>('/items/get_all/' + page);

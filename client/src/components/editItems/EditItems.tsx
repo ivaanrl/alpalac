@@ -94,12 +94,6 @@ export interface addItemFormValues {
   fullWeightPrice: string;
 }
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: any;
-  value: any;
-}
-
 function a11yProps(index: any) {
   return {
     id: `scrollable-auto-tab-${index}`,
@@ -143,12 +137,14 @@ const EditItems = () => {
   };
 
   useEffect(() => {
-    (async function getItemsByCategory() {
-      const items = await axios.get<itemInterface[]>('/items/' + category);
-      setItems(items.data);
-      setModifiedItems(items.data);
-    })();
+    getItemsByCategory();
   }, [category]);
+
+  const getItemsByCategory = async () => {
+    const items = await axios.get<itemInterface[]>('/items/' + category);
+    setItems(items.data);
+    setModifiedItems(items.data);
+  };
 
   const modifyPrice = (index: number, newPrice: number) => {
     modifiedItems[index].price = newPrice;

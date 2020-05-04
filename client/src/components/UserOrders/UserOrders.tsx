@@ -44,15 +44,17 @@ const UserOrders = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    (async function getUserOrders() {
-      const axiosResponse = await axios.get<orderInterface[]>(
-        '/orders/get_orders'
-      );
-      if (axiosResponse.status === 200) {
-        setOrders(axiosResponse.data);
-      }
-    })();
+    getUserOrders();
   }, []);
+
+  const getUserOrders = async () => {
+    const axiosResponse = await axios.get<orderInterface[]>(
+      '/orders/get_orders'
+    );
+    if (axiosResponse.status === 200) {
+      setOrders(axiosResponse.data);
+    }
+  };
 
   const [orders, setOrders] = useState<orderInterface[]>([]);
 

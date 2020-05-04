@@ -57,15 +57,17 @@ const AllOrders = () => {
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    (async function getIncompleteOrders() {
-      const axiosResponse = await axios.get<allOrderInterface[]>(
-        '/orders/admin/all_orders/0'
-      );
-      if (axiosResponse.status === 200) {
-        setOrders(axiosResponse.data);
-      }
-    })();
+    getIncompleteOrders();
   }, []);
+
+  const getIncompleteOrders = async () => {
+    const axiosResponse = await axios.get<allOrderInterface[]>(
+      '/orders/admin/all_orders/0'
+    );
+    if (axiosResponse.status === 200) {
+      setOrders(axiosResponse.data);
+    }
+  };
 
   const handleScroll = async () => {
     const receivedOrders = await axios.get<allOrderInterface[]>(

@@ -35,7 +35,7 @@ const Category = (props: RouteComponentProps) => {
 
   const [items, setItems] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
   const category = location.pathname.split('/')[2];
@@ -45,10 +45,9 @@ const Category = (props: RouteComponentProps) => {
   }, [location, category]);
 
   const getItemsByCategory = async () => {
-    const items = await axios.get<Item[]>('/items/' + category + '/' + page);
+    const items = await axios.get<Item[]>('/items/' + category + '/0');
     setItems(items.data);
     setIsLoading(false);
-    setPage(page + 1);
   };
 
   const handleScroll = async () => {
