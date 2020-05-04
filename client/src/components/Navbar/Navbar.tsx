@@ -415,7 +415,7 @@ const Navbar = (props: RouteComponentProps) => {
     <FormControl className={classes.authForm}>
       <div className={classes.signInContainer}>
         <div className={classes.signInTitle}>Iniciar Sesión</div>
-        <a href="/auth/google" className={classes.aElement}>
+        <a href="/api/auth/google" className={classes.aElement}>
           <GoogleButton label="Iniciar sesión con Google" />
         </a>
         <GoogleButton label="Iniciar sesión con Google" />
