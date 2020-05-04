@@ -2,20 +2,19 @@ if (!global.hasOwnProperty('db')) {
   const Sequelize = require('sequelize');
   sequelize = null;
 
-  console.log(process.env.DATABASE_URL);
   if (process.env.DATABASE_URL) {
     try {
       sequelize = new Sequelize(process.env.DATABASE_URL, {
         dialect: 'postgres',
         protocol: 'postgres',
-        logging: false, //true
+        logging: true, //false
         dialectOptions: {
           ssl: true,
           rejectUnauthorized: false,
         },
       });
     } catch (error) {
-      console.log("can't connect to DB");
+      console.log(error);
     }
   } else {
     sequelize = new Sequelize({
