@@ -9,8 +9,11 @@ if (!global.hasOwnProperty('db')) {
         protocol: 'postgres',
         logging: true, //false
         dialectOptions: {
-          ssl: true,
-          rejectUnauthorized: false,
+          ssl: {
+            require: true,
+            // Ref.: https://github.com/brianc/node-postgres/issues/2009
+            rejectUnauthorized: false,
+          },
         },
       });
     } catch (error) {
