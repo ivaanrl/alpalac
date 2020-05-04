@@ -3,7 +3,7 @@ const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
 const db = require('./models');
-//const { Pool } = require('pg');
+const { Pool } = require('pg');
 const sslRedirect = require('heroku-ssl-redirect');
 
 const app = express();
@@ -15,11 +15,17 @@ const corsOptions = {
   credentials: true,
 };
 
-//const pool = new Pool({
-//  user: 'ivanrl',
-//  password: '73442332',
-//  database: 'Alpalac',
-//});
+let pool;
+
+if (process.env.NODE_ENV === 'production') {
+  pool = new Pool({});
+} else {
+  pool = new Pool({
+    user: 'ivanrl',
+    password: '73442332',
+    database: 'Alpalac',
+  });
+}
 
 app.use(cors(corsOptions));
 app.options('*', cors());
@@ -29,7 +35,7 @@ app.use(express.json());
 app.use(
   session({
     store: new (require('connect-pg-simple')(session))({
-      //pool,
+      pool,
     }),
     secret: 'oaksndlñsakosindg',
     resave: false,
