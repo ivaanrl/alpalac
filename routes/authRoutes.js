@@ -16,8 +16,7 @@ module.exports = (app) => {
         firstName: req.user.dataValues.firstName,
         lastName: req.user.dataValues.lastName,
       };
-      console.log('callback google');
-      console.log(req.user);
+
       if (process.env.NODE_ENV === 'production') {
         res.redirect('/');
       } else {
@@ -36,6 +35,7 @@ module.exports = (app) => {
   });
 
   app.get('/api/current_user', (req, res) => {
+    console.log(req);
     res.send(req.user);
   });
 };
