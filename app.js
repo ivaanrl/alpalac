@@ -3,7 +3,7 @@ const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
 const db = require('./models');
-const { Pool } = require('pg');
+//const { Pool } = require('pg');
 
 //const dotenv = require("dotenv");
 //dotenv.config();
@@ -14,11 +14,11 @@ const corsOptions = {
   credentials: true,
 };
 
-const pool = new Pool({
-  user: 'ivanrl',
-  password: '73442332',
-  database: 'Alpalac',
-});
+//const pool = new Pool({
+//  user: 'ivanrl',
+//  password: '73442332',
+//  database: 'Alpalac',
+//});
 
 app.use(cors(corsOptions));
 app.options('*', cors());
@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(
   session({
     store: new (require('connect-pg-simple')(session))({
-      pool,
+      //pool,
     }),
     secret: 'oaksndlñsakosindg',
     resave: false,
@@ -36,7 +36,7 @@ app.use(
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       sameSite: 'none',
-      //secure: true,
+      secure: true,
     },
   })
 );
