@@ -15,17 +15,13 @@ const corsOptions = {
   credentials: true,
 };
 
-let pool;
+//let pool;
 
-if (process.env.NODE_ENV === 'production') {
-  pool = new Pool({});
-} else {
-  pool = new Pool({
-    user: 'ivanrl',
-    password: '73442332',
-    database: 'Alpalac',
-  });
-}
+const pool = new Pool({
+  user: 'ivanrl',
+  password: '73442332',
+  database: 'Alpalac',
+});
 
 app.use(cors(corsOptions));
 app.options('*', cors());
@@ -54,7 +50,7 @@ app.use(passport.session());
 require('./routes/itemsRoutes')(app);
 require('./routes/authRoutes')(app);
 require('./routes/orderRoutes')(app);
-app.use('/api', require('./routes/authRoutes'));
+//app.use('/api', require('./routes/authRoutes'));
 
 const PORT = process.env.PORT || 5000;
 
