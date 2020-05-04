@@ -41,13 +41,15 @@ const Category = (props: RouteComponentProps) => {
   const category = location.pathname.split('/')[2];
 
   useEffect(() => {
-    (async function getItemsByCategory() {
-      const items = await axios.get<Item[]>('/items/' + category + '/' + page);
-      setItems(items.data);
-      setIsLoading(false);
-      setPage(page + 1);
-    })();
+    getItemsByCategory();
   }, [location, category]);
+
+  const getItemsByCategory = async () => {
+    const items = await axios.get<Item[]>('/items/' + category + '/' + page);
+    setItems(items.data);
+    setIsLoading(false);
+    setPage(page + 1);
+  };
 
   const handleScroll = async () => {
     const receivedItems = await axios.get<Item[]>(
