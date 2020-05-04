@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (app) => {
-  app.post('/items/addItem', async (req, res) => {
+  app.post('/api/items/addItem', async (req, res) => {
     const newItem = await addItem(req.body);
     if (newItem) {
       res.status(201);
@@ -12,7 +12,7 @@ module.exports = (app) => {
     }
   });
 
-  app.post('/items/editItems', async (req, res) => {
+  app.post('/api/items/editItems', async (req, res) => {
     try {
       const items = req.body;
       items.forEach(async (item) => {
@@ -26,7 +26,7 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/items/search/:searchterms/:page', async (req, res) => {
+  app.get('/api/items/search/:searchterms/:page', async (req, res) => {
     try {
       const searchTerm = req.params.searchterms;
       const page = req.params.page;
@@ -43,7 +43,7 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/items/get_all/:page', async (req, res) => {
+  app.get('/api/items/get_all/:page', async (req, res) => {
     try {
       const page = req.params.page;
       const items = await getAllItems(page);
@@ -59,7 +59,7 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/items/:category/:page', async (req, res) => {
+  app.get('/api/items/:category/:page', async (req, res) => {
     const category = req.params.category;
     const page = req.params.page;
     const items = await getItemByCategory(category, page);

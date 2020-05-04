@@ -1,11 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const API_ENDPOINT =
-  process.env.REACT_APP_API_ENDPOINT || "http://localhost:5000";
+  process.env.NODE_ENV === 'development' ? '/api' : 'http://localhost:5000/api';
+//process.env.REACT_APP_API_ENDPOINT ||
 
 const headers = {
-  "Content-Type": "application/json",
-  Accept: "application/json",
+  'Content-Type': 'application/json',
+  Accept: 'application/json',
 };
 
 export default axios.create({

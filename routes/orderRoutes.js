@@ -3,7 +3,7 @@ const checkAuth = require('../middlewares/check-auth');
 const checkAdmin = require('../middlewares/check-admin');
 
 module.exports = (app) => {
-  app.post('/orders/new', checkAuth, async (req, res) => {
+  app.post('/api/orders/new', checkAuth, async (req, res) => {
     const newOrder = await addOrder(req.body, req.user.id);
     if (newOrder) {
       res.status(201);
@@ -14,7 +14,7 @@ module.exports = (app) => {
     }
   });
 
-  app.post('/orders/admin/complete_order', checkAdmin, async (req, res) => {
+  app.post('/api/orders/admin/complete_order', checkAdmin, async (req, res) => {
     const order = await completeOrder(req.body.id);
     if (order) {
       res.status(201);
@@ -25,18 +25,22 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/orders/admin/incomplete_orders', checkAdmin, async (req, res) => {
-    const orders = await getIncompleteOrders(req.body);
-    if (orders) {
-      res.status(200);
-      res.send(orders);
-    } else {
-      res.status(500);
-      res.send();
+  app.get(
+    '/api/orders/admin/incomplete_orders',
+    checkAdmin,
+    async (req, res) => {
+      const orders = await getIncompleteOrders(req.body);
+      if (orders) {
+        res.status(200);
+        res.send(orders);
+      } else {
+        res.status(500);
+        res.send();
+      }
     }
-  });
+  );
 
-  app.get('/orders/get_orders', checkAuth, async (req, res) => {
+  app.get('/api/orders/get_orders', checkAuth, async (req, res) => {
     const orders = await getUserOrders(req.user.id);
     if (orders) {
       res.status(200);
@@ -47,22 +51,26 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/orders/admin/all_orders/:page', checkAdmin, async (req, res) => {
-    try {
-      const page = req.params.page;
-      const orders = await getAllOrders(page);
-      if (orders.length < 9) {
-        res.status(206);
-        res.send(orders);
-      } else {
-        res.status(202);
+  app.get(
+    '/api/orders/admin/all_orders/:page',
+    checkAdmin,
+    async (req, res) => {
+      try {
+        const page = req.params.page;
+        const orders = await getAllOrders(page);
+        if (orders.length < 9) {
+          res.status(206);
+          res.send(orders);
+        } else {
+          res.status(202);
+          res.send();
+        }
+      } catch (error) {
+        res.status(500);
         res.send();
       }
-    } catch (error) {
-      res.status(500);
-      res.send();
     }
-  });
+  );
 };
 
 const addOrder = async (order, userId) => {

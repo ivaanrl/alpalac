@@ -3,12 +3,12 @@ require('../services/passport');
 
 module.exports = (app) => {
   app.get(
-    '/auth/google',
+    '/api/auth/google',
     passport.authenticate('google', { scope: ['profile'] })
   );
 
   app.get(
-    '/auth/google/callback',
+    '/api/auth/google/callback',
     passport.authenticate('google'),
     (req, res) => {
       const user = {

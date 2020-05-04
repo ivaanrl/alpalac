@@ -48,7 +48,7 @@ app.use(passport.session());
 require('./routes/itemsRoutes')(app);
 require('./routes/authRoutes')(app);
 require('./routes/orderRoutes')(app);
-//app.use('/', require('./routes/authRoutes'));
+app.use('/api', require('./routes/authRoutes'));
 
 const PORT = process.env.PORT || 5000;
 
