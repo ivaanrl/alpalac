@@ -52,6 +52,7 @@ app.use('/', require('./routes/authRoutes'));
 const PORT = process.env.PORT || 5000;
 
 if (process.env.NODE_ENV === 'production') {
+  console.log('proddddddddddddd');
   const path = require('path');
   //Express will serve up production asses like main.js
   //or main.css files
@@ -63,7 +64,7 @@ if (process.env.NODE_ENV === 'production') {
   //app.get('*', (req, res) => {
   //  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   //});
-  app.get('*', function (req, res) {
+  app.get('/*', function (req, res) {
     console.log('this is actually working');
     res.sendFile(path.resolve(__dirname, 'client/build', 'index.html'));
   });
