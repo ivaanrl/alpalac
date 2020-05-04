@@ -11,6 +11,7 @@ if (!global.hasOwnProperty('db')) {
         logging: false, //true
         dialectOptions: {
           ssl: true,
+          rejectUnauthorized: false,
         },
       });
     } catch (error) {
