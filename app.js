@@ -4,8 +4,12 @@ const passport = require('passport');
 const session = require('express-session');
 const db = require('./models');
 //const { Pool } = require('pg');
+const sslRedirect = require('heroku-ssl-redirect');
 
 const app = express();
+
+app.use(sslRedirect());
+
 const corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true,
