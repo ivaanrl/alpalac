@@ -55,34 +55,45 @@ const styles = (theme: Theme) =>
       color: theme.palette.grey[500],
     },
   });
-const useStyles = makeStyles({
-  mainContainer: {
-    margin: 'auto',
-    width: '40%',
-    marginBottom: '10px',
-  },
-  openDialogButton: {
-    width: '100%',
-  },
-  completedIcon: {
-    marginLeft: '35px',
-  },
-  itemInfo: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  itemsContainer: {
-    overflowY: 'scroll',
-  },
-  price: {
-    marginRight: '15px',
-  },
-  totalPrice: {
-    width: '90%',
-  },
-});
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    mainContainer: {
+      margin: 'auto',
+      marginBottom: '10px',
+      width: '90%',
+      [theme.breakpoints.up('sm')]: {
+        width: '40%',
+      },
+    },
+    openDialogButton: {
+      width: '100%',
+    },
+    completedIcon: {
+      marginLeft: '35px',
+      color: '#0d47a1',
+    },
+    incompletedIcon: {
+      marginLeft: '35px',
+    },
+    itemInfo: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    itemsContainer: {
+      overflowY: 'scroll',
+    },
+    price: {
+      marginRight: '15px',
+    },
+    totalPrice: {
+      width: '90%',
+      textAlign: 'left',
+    },
+  })
+);
 
 const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   const { children, classes, onClose, ...other } = props;
@@ -129,7 +140,7 @@ const UserOrder = (props: userOrderProps) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [isCompleted] = useState(completed);
 
-  let isCompletedIcon = <CancelIcon className={classes.completedIcon} />;
+  let isCompletedIcon = <CancelIcon className={classes.incompletedIcon} />;
 
   if (isCompleted) {
     isCompletedIcon = <CheckCircleIcon className={classes.completedIcon} />;

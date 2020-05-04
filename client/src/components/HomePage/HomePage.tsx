@@ -5,16 +5,22 @@ import {
   makeStyles,
   createStyles,
   CircularProgress,
+  Theme,
 } from '@material-ui/core';
 import { itemInterface as Item } from '../Items/Item/Item';
 import axios from '../../axios';
 import InfiniteScroll from 'react-infinite-scroller';
 import Items from '../Items/Items';
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
       marginTop: '5vh',
+
+      [theme.breakpoints.down('sm')]: {
+        paddingRight: '8px',
+        paddingLeft: '8px',
+      },
     },
     infiniteScroll: {
       overflowX: 'hidden',
@@ -34,7 +40,6 @@ const HomePage = () => {
   useEffect(() => {
     (async function getItemsByCategory() {
       const items = await axios.get<Item[]>('/items/get_all/0');
-      console.log(items);
       setItems(items.data);
       setIsLoading(false);
     })();

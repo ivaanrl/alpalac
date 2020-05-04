@@ -1,37 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import axios from '../../axios';
 import UserOrder, {
   userOrderProps as orderInterface,
 } from '../UserOrder/UserOrder';
 
-const useStyles = makeStyles({
-  mainContainer: {
-    marginTop: '9vh',
-  },
-  orders: {
-    marginTop: '60px',
-    maxHeight: '60%',
-    overflowY: 'scroll',
-    scrollbarWidth: 'none',
-    msOverflowStyle: 'none',
-    '&::-webkit-scrollbar': {
-      width: '0',
-      height: '0',
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    mainContainer: {
+      marginTop: '9vh',
     },
-  },
-  title: {
-    marginTop: '3vh',
-    fontSize: '40px',
-    fontWeight: 'bold',
-    paddingBottom: '-5px',
-    width: '70%',
-    margin: 'auto',
-    marginLeft: '30%',
-    textAlign: 'left',
-    borderBottom: '1px solid #d9d4d4',
-  },
-});
+    orders: {
+      marginTop: '60px',
+      maxHeight: '60%',
+      overflowY: 'scroll',
+      scrollbarWidth: 'none',
+      msOverflowStyle: 'none',
+      '&::-webkit-scrollbar': {
+        width: '0',
+        height: '0',
+      },
+    },
+    title: {
+      marginTop: '3vh',
+      fontSize: '40px',
+      fontWeight: 'bold',
+      paddingBottom: '-5px',
+      width: '95%',
+      margin: 'auto',
+      marginLeft: '5%',
+      textAlign: 'left',
+      borderBottom: '1px solid #d9d4d4',
+
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: '30%',
+        width: '70%',
+      },
+    },
+  })
+);
 
 const UserOrders = () => {
   const classes = useStyles();

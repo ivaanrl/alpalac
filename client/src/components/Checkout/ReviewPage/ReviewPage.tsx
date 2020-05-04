@@ -17,18 +17,19 @@ export interface reviewPageProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     mainContainer: {
-      //position: 'relative',
       marginTop: '30px',
     },
     itemsContainer: {
-      maxHeight: '60vh',
-
+      maxHeight: '30vh',
       overflowY: 'scroll',
       scrollbarWidth: 'none',
       msOverflowStyle: 'none',
       '&::-webkit-scrollbar': {
         width: '0',
         height: '0',
+      },
+      [theme.breakpoints.up('sm')]: {
+        maxHeight: '50vh',
       },
     },
     itemContainer: {
@@ -46,12 +47,16 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      width: '35%',
       margin: 'auto',
       marginTop: '30px',
-      marginBottom: '45px',
       border: `1px solid ${theme.palette.primary.main}`,
       borderRadius: '5px',
+      width: '90%',
+      marginBottom: '15px',
+      [theme.breakpoints.up('sm')]: {
+        width: '35%',
+        marginBottom: '45px',
+      },
     },
     userInfo: {
       width: '100%',
@@ -76,13 +81,16 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '5px',
     },
     totalPriceDisplay: {
-      fontSize: '20px',
       border: `1px solid ${theme.palette.primary.main}`,
       borderRadius: '5px',
       padding: '7px',
       margin: '15px',
       textAlign: 'center',
       fontWeight: 'bolder',
+      fontSize: '16px',
+      [theme.breakpoints.up('sm')]: {
+        fontSize: '20px',
+      },
     },
     buttonsContainer: {
       position: 'absolute',

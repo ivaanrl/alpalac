@@ -29,10 +29,13 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       justifyContent: 'space-around',
       minHeight: '50vh',
-      maxWidth: '40%',
       padding: '20px',
       border: `1px solid ${theme.palette.primary.main}`,
       borderRadius: '6px',
+      maxWidth: '90%',
+      [theme.breakpoints.up('sm')]: {
+        maxWidth: '40%',
+      },
     },
     title: {
       margin: 'auto',
@@ -41,10 +44,27 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: '40px',
       fontWeight: 'bold',
       paddingBottom: '-5px',
-      width: '70%',
-      marginLeft: '30%',
+      width: '95%',
+      marginLeft: '5%',
       textAlign: 'left',
       borderBottom: '1px solid #d9d4d4',
+
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: '30%',
+        width: '70%',
+      },
+    },
+    buttonsContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      marginTop: '15px',
+
+      [theme.breakpoints.up('sm')]: {
+        marginTop: '0',
+      },
+    },
+    goBackButton: {
+      marginRight: '15px',
     },
   })
 );
@@ -131,12 +151,19 @@ const CheckoutForm = (props: FormikProps<FormValues> & checkoutFormProps) => {
           fullWidth
         />
 
-        <Button variant="contained" color="secondary" onClick={prevPage}>
-          Volver
-        </Button>
-        <Button type="submit" variant="contained" color="primary">
-          Comprar
-        </Button>
+        <div className={classes.buttonsContainer}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={prevPage}
+            className={classes.goBackButton}
+          >
+            Volver
+          </Button>
+          <Button type="submit" variant="contained" color="primary">
+            Comprar
+          </Button>
+        </div>
       </form>
     </React.Fragment>
   );

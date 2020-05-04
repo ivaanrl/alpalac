@@ -24,8 +24,11 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: '400px',
       minHeight: '200px',
       minWidth: '420px',
-      maxWidth: '420px',
       overflowY: 'scroll',
+      [theme.breakpoints.down('sm')]: {
+        minWidth: '90vw',
+        maxWidth: '90vw',
+      },
     },
     shoppingCartItemContainer: {
       display: 'flex',
@@ -42,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
     image: {
       maxWidth: '40px',
       borderRadius: '6px',
+      marginRight: '5px',
     },
     textContainer: {
       display: 'flex',
@@ -63,6 +67,12 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: `${theme.palette.primary.main}`,
       borderBottomRightRadius: '6px',
       borderBottomLeftRadius: '6px',
+
+      boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+      [theme.breakpoints.down('sm')]: {
+        minWidth: '90vw',
+        maxWidth: '90vw',
+      },
     },
     totalPrice: {},
     viewCartButton: {
@@ -145,6 +155,9 @@ const ShoppingCartPopper = (props: {
             </div>
           );
         })}
+        {shoppingCart.length < 1 ? (
+          <div>Aún no has agregado nada a tu carrito!</div>
+        ) : null}
       </div>
       <div className={classes.resume}>
         <div className={classes.totalPrice}>Total: ${getTotalPrice()}</div>

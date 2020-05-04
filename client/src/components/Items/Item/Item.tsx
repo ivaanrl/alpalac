@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -18,69 +18,75 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useDispatch } from 'react-redux';
 import allActions from '../../../actions';
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 340,
-    margin: '35px',
-    flex: 1,
-  },
-  media: {
-    height: 140,
-  },
-  formControl: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  inputCantidad: {
-    width: '150px',
-    marginLeft: '10px',
-  },
-  labelCantidad: {
-    marginLeft: '10px',
-  },
-  addToShoppingListButton: {
-    marginRight: '10px',
-  },
-  productTextContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  productName: {
-    fontSize: '20px',
-    fontWeight: 'bold',
-    color: 'black',
-  },
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      minWidth: 340,
+      margin: '35px',
+      flex: 1,
+      [theme.breakpoints.down('sm')]: {
+        marginRight: '0',
+        marginLeft: '0',
+      },
+    },
+    media: {
+      height: 140,
+    },
+    formControl: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      justifyContent: 'space-between',
+      width: '100%',
+    },
+    inputCantidad: {
+      width: '150px',
+      marginLeft: '10px',
+    },
+    labelCantidad: {
+      marginLeft: '10px',
+    },
+    addToShoppingListButton: {
+      marginRight: '10px',
+    },
+    productTextContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    productName: {
+      fontSize: '20px',
+      fontWeight: 'bold',
+      color: 'black',
+    },
 
-  pricePerKg: {
-    fontSize: '16px',
-    color: 'black',
-    marginBottom: '10px',
-  },
-  actualPrice: {
-    fontSize: '16px',
-    color: 'black',
-  },
-  spacer: {
-    height: '22px',
-    width: '100%',
-  },
-  cardActions: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  fullWeightPriceCheckbox: {
-    alignSelf: 'flex-start',
-  },
-  checkBoxSpacer: {
-    height: '42px',
-    width: '150px',
-  },
-});
+    pricePerKg: {
+      fontSize: '16px',
+      color: 'black',
+      marginBottom: '10px',
+    },
+    actualPrice: {
+      fontSize: '16px',
+      color: 'black',
+    },
+    spacer: {
+      height: '22px',
+      width: '100%',
+    },
+    cardActions: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    fullWeightPriceCheckbox: {
+      alignSelf: 'flex-start',
+    },
+    checkBoxSpacer: {
+      height: '42px',
+      width: '150px',
+    },
+  })
+);
 
 export interface itemInterface {
   id: string;
@@ -146,7 +152,6 @@ export default function Item(props: itemInterface) {
         })
       );
     } else {
-      console.log(weight);
       dispatch(
         allActions.addToShoppingCart({
           id,
@@ -162,6 +167,9 @@ export default function Item(props: itemInterface) {
   const switchPartitionable = () => {
     if (!partitionableCheck && fullWeightPrice) {
       setActualPrice(parseFloat(fullWeightPrice));
+    }
+    if (partitionableCheck && fullWeightPrice) {
+      setActualPrice(0);
     }
     setPartitionableCheck(!partitionableCheck);
     setInputDisabled(!inputDisabled);

@@ -152,6 +152,9 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('md')]: {
         width: '80%',
       },
+      [theme.breakpoints.down('sm')]: {
+        marginRight: '10px',
+      },
     },
     account: {},
     shoppingCartNavBar: {
@@ -179,8 +182,11 @@ const useStyles = makeStyles((theme: Theme) =>
       top: '50%',
       left: '50%',
       transform: 'translateX(-50%) translateY(-50%)',
-
       borderRadius: '10px',
+      [theme.breakpoints.down('sm')]: {
+        maxWidth: 'none',
+        minWidth: '90vw',
+      },
     },
     authForm: {
       backgroundColor: 'white',
@@ -359,6 +365,7 @@ const Navbar = (props: RouteComponentProps) => {
       color="secondary"
       disableElevation
       onClick={handleOpen}
+      className={classes.logoutButton}
     >
       Iniciar Sesión
     </Button>

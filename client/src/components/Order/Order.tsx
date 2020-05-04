@@ -58,35 +58,44 @@ const styles = (theme: Theme) =>
     },
   });
 
-const useStyles = makeStyles({
-  mainContainer: {
-    margin: 'auto',
-    width: '40%',
-    marginBottom: '10px',
-  },
-  openDialogButton: {
-    width: '100%',
-  },
-  completedIcon: {
-    marginLeft: '35px',
-  },
-  itemInfo: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  itemsContainer: {
-    overflowY: 'scroll',
-  },
-  price: {
-    marginRight: '15px',
-  },
-  dialog: {
-    minWidth: '80%',
-    maxWidth: '100% !important',
-  },
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    mainContainer: {
+      margin: 'auto',
+      marginBottom: '10px',
+      width: '90%',
+      [theme.breakpoints.up('sm')]: {
+        width: '40%',
+      },
+    },
+    openDialogButton: {
+      width: '100%',
+    },
+    completedIcon: {
+      marginLeft: '35px',
+      color: '#0d47a1',
+    },
+    incompletedIcon: {
+      marginLeft: '35px',
+    },
+    itemInfo: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    itemsContainer: {
+      overflowY: 'scroll',
+    },
+    price: {
+      marginRight: '15px',
+    },
+    dialog: {
+      minWidth: '80%',
+      maxWidth: '100% !important',
+    },
+  })
+);
 
 const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   const { children, classes, onClose, ...other } = props;
@@ -135,10 +144,12 @@ const Order = (props: orderProps) => {
   const [isCompleted, setIsCompleted] = useState(completed);
   const [isLoading, setIsLoading] = useState(false);
 
-  let isCompletedIcon = <CancelIcon className={classes.completedIcon} />;
+  let isCompletedIcon = <CancelIcon className={classes.incompletedIcon} />;
 
   if (isCompleted) {
-    isCompletedIcon = <CheckCircleIcon className={classes.completedIcon} />;
+    isCompletedIcon = (
+      <CheckCircleIcon className={classes.completedIcon} color="inherit" />
+    );
   }
 
   if (isLoading) {
