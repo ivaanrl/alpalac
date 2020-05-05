@@ -35,6 +35,7 @@ export interface orderProps {
   firstname: string;
   lastname: string;
   weight: number;
+  phoneNumber: string;
 }
 
 export interface itemOrder {
@@ -138,6 +139,7 @@ const Order = (props: orderProps) => {
     firstname,
     lastname,
     createdate,
+    phoneNumber,
   } = props;
   const [open, setOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -223,6 +225,7 @@ const Order = (props: orderProps) => {
                 Nombre: {firstname} {lastname}
               </div>
               <div>Dirección: {address} </div>
+              <div>Teléfono: {phoneNumber}</div>
               <div>Precio total aproximado: {totalPrice}</div>
             </div>
           </Typography>

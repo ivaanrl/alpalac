@@ -198,11 +198,7 @@ const UserOrder = (props: userOrderProps) => {
           <Divider />
           <Typography gutterBottom>
             <div>
-              <div>
-                Nombre: {firstname} {lastname}
-              </div>
-              <div>Dirección: {address} </div>
-              <div>Precio total aproximado: {totalPrice}</div>
+              <div>Precio total aproximado: ${totalPrice}</div>
             </div>
           </Typography>
         </DialogContent>

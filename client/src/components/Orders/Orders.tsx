@@ -69,6 +69,7 @@ const Orders = () => {
             lastname,
             createdate,
             weight,
+            phoneNumber,
           } = order;
           return (
             <Order
@@ -80,6 +81,7 @@ const Orders = () => {
               firstname={firstname}
               lastname={lastname}
               weight={weight}
+              phoneNumber={phoneNumber}
             />
           );
         })}
