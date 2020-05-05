@@ -190,7 +190,7 @@ const UserOrder = (props: userOrderProps) => {
               return (
                 <div className={classes.itemInfo}>
                   <div>{item.name}</div>
-                  <div className={classes.price}>$ {item.price} </div>
+                  <div className={classes.price}>${item.price} </div>
                 </div>
               );
             })}
