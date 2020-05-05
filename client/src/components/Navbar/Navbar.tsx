@@ -59,6 +59,14 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
+    miniLogoNavbar: {
+      fontSize: '20px',
+      fontWeight: 'bolder',
+      display: 'none',
+      [theme.breakpoints.down('md')]: {
+        display: 'inline-block',
+      },
+    },
     appBar: {
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.sharp,
@@ -75,6 +83,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuButton: {
       marginRight: theme.spacing(2),
+      [theme.breakpoints.down('sm')]: {
+        margin: theme.spacing(0),
+      },
     },
     hide: {
       display: 'none',
@@ -153,12 +164,15 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '80%',
       },
       [theme.breakpoints.down('sm')]: {
-        marginRight: '10px',
+        marginRight: '0px',
       },
     },
     account: {},
     shoppingCartNavBar: {
       marginRight: '15px',
+      [theme.breakpoints.down('sm')]: {
+        marginRight: '0px',
+      },
     },
     categories: {
       textAlign: 'left',
@@ -286,6 +300,10 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('sm')]: {
         display: 'inherit',
       },
+    },
+    navLinkLogo: {
+      textDecoration: 'none',
+      color: 'inherit',
     },
   })
 );
@@ -545,7 +563,7 @@ const Navbar = (props: RouteComponentProps) => {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar disableGutters>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -557,7 +575,16 @@ const Navbar = (props: RouteComponentProps) => {
           </IconButton>
           {open ? null : (
             <Typography variant="h6" noWrap className={classes.logoNavbar}>
-              Alpalac
+              <NavLink to="/" className={classes.navLinkLogo}>
+                Alpalac
+              </NavLink>
+            </Typography>
+          )}
+          {open ? null : (
+            <Typography variant="h6" noWrap className={classes.miniLogoNavbar}>
+              <NavLink to="/" className={classes.navLinkLogo}>
+                A
+              </NavLink>
             </Typography>
           )}
           <div className={classes.rightNavbar}>
@@ -626,7 +653,11 @@ const Navbar = (props: RouteComponentProps) => {
           }}
         >
           <div className={classes.drawerHeader}>
-            <div className={classes.logo}>Alpalac</div>
+            <div className={classes.logo}>
+              <NavLink to="/" className={classes.navLinkLogo}>
+                Alpalac
+              </NavLink>
+            </div>
             <IconButton onClick={handleDrawerClose}>
               <MenuIcon />
             </IconButton>
