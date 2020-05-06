@@ -103,7 +103,7 @@ const addItem = async (item) => {
   const formattedTags = tags.trim().split(",");
 
   formattedTags.forEach((tag) => {
-    tagsToAdd.push(`'${tag}'`);
+    tagsToAdd.push(tag);
   });
 
   try {
