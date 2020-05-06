@@ -1,85 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import Item from '../Item/ItemToEdit';
+import React, { useState, useEffect } from "react";
+import Item from "../Item/ItemToEdit";
 import {
   makeStyles,
   Theme,
   createStyles,
   Button,
   Modal,
-} from '@material-ui/core';
-import DoneIcon from '@material-ui/icons/Done';
-import AddIcon from '@material-ui/icons/Add';
-import AddItemForm from './AddItemForm';
-import { Formik } from 'formik';
-import { AddItemSubmit } from './AddItemSubmit';
-import * as Yup from 'yup';
-import axios from '../../axios';
-import { itemInterface } from '../Items/Item/Item';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+} from "@material-ui/core";
+import DoneIcon from "@material-ui/icons/Done";
+import AddIcon from "@material-ui/icons/Add";
+import AddItemForm from "./AddItemForm";
+import { Formik } from "formik";
+import { AddItemSubmit } from "./AddItemSubmit";
+import * as Yup from "yup";
+import axios from "../../axios";
+import { itemInterface } from "../Items/Item/Item";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     tabContainer: {
-      marginBottom: '15px',
-      marginTop: '8vh',
+      marginBottom: "15px",
+      marginTop: "8vh",
     },
     itemsContainer: {
-      width: '65%',
-      margin: 'auto',
-      position: 'relative',
-      marginTop: '35px',
+      width: "65%",
+      margin: "auto",
+      position: "relative",
+      marginTop: "35px",
     },
     titles: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-around',
-      width: '100%',
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-around",
+      width: "100%",
     },
     name: {
-      flexBasis: '15%',
-      textAlign: 'left',
+      flexBasis: "15%",
+      textAlign: "left",
     },
     priceInput: {
-      flexBasis: '15%',
-      textAlign: 'center',
-      marginLeft: '10px',
-      marginRight: '20px',
+      flexBasis: "15%",
+      textAlign: "center",
+      marginLeft: "10px",
+      marginRight: "20px",
     },
     quantityInput: {
-      flexBasis: '15%',
-      textAlign: 'center',
-      marginLeft: '10px',
+      flexBasis: "15%",
+      textAlign: "center",
+      marginLeft: "10px",
     },
     items: {
-      maxHeight: '700px',
-      overflowY: 'scroll',
-      scrollbarWidth: 'none',
-      msOverflowStyle: 'none',
-      '&::-webkit-scrollbar': {
-        width: '0%',
-        background: 'transparent',
+      maxHeight: "700px",
+      overflowY: "scroll",
+      scrollbarWidth: "none",
+      msOverflowStyle: "none",
+      "&::-webkit-scrollbar": {
+        width: "0%",
+        background: "transparent",
       },
     },
     formButtons: {
-      position: 'absolute',
-      right: '0%',
-      marginTop: '20px',
+      position: "absolute",
+      right: "0%",
+      marginTop: "20px",
     },
     addButton: {
-      marginRight: '30px',
+      marginRight: "30px",
     },
   })
 );
 
 const addItemFormValidationSchema = Yup.object({
-  name: Yup.string().required('Debes ingresar un nombre'),
-  price: Yup.number().required('Debes ingresar un precio'),
-  quantity: Yup.number().required('Debes ingresar una cantidad'),
-  tags: Yup.string().required('Debes ingresar una etiqueta'),
-  category: Yup.string().required('Debes ingresar una categoria'),
+  name: Yup.string().required("Debes ingresar un nombre"),
+  price: Yup.number().required("Debes ingresar un precio"),
+  quantity: Yup.number().required("Debes ingresar una cantidad"),
+  tags: Yup.string().required("Debes ingresar una etiqueta"),
+  category: Yup.string().required("Debes ingresar una categoria"),
   partitionable: Yup.boolean(),
   fullWeightPrice: Yup.string(),
 });
@@ -97,7 +97,7 @@ export interface addItemFormValues {
 function a11yProps(index: any) {
   return {
     id: `scrollable-auto-tab-${index}`,
-    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+    "aria-controls": `scrollable-auto-tabpanel-${index}`,
   };
 }
 
@@ -120,15 +120,15 @@ const EditItems = () => {
   const [tabValue, setTabValue] = useState(0);
 
   const categories = [
-    'quesos',
-    'fiambres',
-    'pizzas',
-    'item 1',
-    'item 2',
-    'item 3',
+    "quesos",
+    "fiambres",
+    "pizzas",
+    "item 1",
+    "item 2",
+    "item 3",
   ];
 
-  const [category, setCategory] = useState('quesos');
+  const [category, setCategory] = useState("quesos");
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const cat = categories[newValue];
@@ -141,7 +141,7 @@ const EditItems = () => {
   }, [category]);
 
   const getItemsByCategory = async () => {
-    const items = await axios.get<itemInterface[]>('/items/' + category);
+    const items = await axios.get<itemInterface[]>("/admin/items/" + category);
     setItems(items.data);
     setModifiedItems(items.data);
   };
@@ -163,32 +163,32 @@ const EditItems = () => {
 
   const sendModifiedItems = async () => {
     const modifiedItemsResponse = await axios.post(
-      '/items/editItems',
+      "/items/editItems",
       modifiedItems
     );
 
     if (modifiedItemsResponse.status === 201) {
-      const items = await axios.get<itemInterface[]>('/items/' + category);
+      const items = await axios.get<itemInterface[]>("/items/" + category);
       setItems(items.data);
       setModifiedItems(items.data);
     }
   };
 
   const initialAddItemFormValues: addItemFormValues = {
-    name: '',
-    price: '',
-    quantity: '',
-    tags: '',
-    category: '',
+    name: "",
+    price: "",
+    quantity: "",
+    tags: "",
+    category: "",
     partitionable: false,
-    fullWeightPrice: '',
+    fullWeightPrice: "",
   };
 
-  const [imageUrl, setImgUrl] = useState('');
+  const [imageUrl, setImgUrl] = useState("");
 
   const cleanUpSubmit = () => {
     setOpenModal(false);
-    setImgUrl('');
+    setImgUrl("");
   };
 
   return (

@@ -8,6 +8,7 @@ module.exports = async (req, res, next) => {
       },
     });
     if (user) {
+      console.log("next");
       next();
     }
   } catch (error) {

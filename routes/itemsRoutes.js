@@ -1,7 +1,7 @@
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = (app) => {
-  app.post('/api/items/addItem', async (req, res) => {
+  app.post("/api/items/addItem", async (req, res) => {
     const newItem = await addItem(req.body);
     if (newItem) {
       res.status(201);
@@ -12,21 +12,21 @@ module.exports = (app) => {
     }
   });
 
-  app.post('/api/items/editItems', async (req, res) => {
+  app.post("/api/items/editItems", async (req, res) => {
     try {
       const items = req.body;
       items.forEach(async (item) => {
         await editItem(item);
       });
       res.status(201);
-      res.send();
+      res.send(items);
     } catch (error) {
       res.status(500);
       res.send();
     }
   });
 
-  app.get('/api/items/search/:searchterms/:page', async (req, res) => {
+  app.get("/api/items/search/:searchterms/:page", async (req, res) => {
     try {
       const searchTerm = req.params.searchterms;
       const page = req.params.page;
@@ -43,7 +43,7 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/api/items/get_all/:page', async (req, res) => {
+  app.get("/api/items/get_all/:page", async (req, res) => {
     try {
       const page = req.params.page;
       const items = await getAllItems(page);
@@ -59,7 +59,20 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/api/items/:category/:page', async (req, res) => {
+  app.get("/api/admin/items/:category", async (req, res) => {
+    const category = req.params.category;
+
+    const items = await getAllItemsByCategory(category);
+    if (items) {
+      res.status(201);
+      res.send(items);
+    } else {
+      res.status(501);
+      res.send("Couldn't get the items");
+    }
+  });
+
+  app.get("/api/items/:category/:page", async (req, res) => {
     const category = req.params.category;
     const page = req.params.page;
     const items = await getItemByCategory(category, page);
@@ -87,7 +100,7 @@ const addItem = async (item) => {
 
   const tagsToAdd = [];
 
-  const formattedTags = tags.trim().split(',');
+  const formattedTags = tags.trim().split(",");
 
   formattedTags.forEach((tag) => {
     tagsToAdd.push(`'${tag}'`);
@@ -131,6 +144,18 @@ const getItemByCategory = async (category, page) => {
   }
 };
 
+const getAllItemsByCategory = async (category) => {
+  try {
+    return await global.db.Item.findAll({
+      where: {
+        category,
+      },
+    });
+  } catch (error) {
+    return false;
+  }
+};
+
 const getAllItems = async (page) => {
   const offset = parseInt(page, 10) * 9;
   try {
@@ -160,7 +185,7 @@ const editItem = async (item) => {
 };
 
 const getItemsBySearch = async (searchTerm, page) => {
-  searchTerm = searchTerm.split('+');
+  searchTerm = searchTerm.split("+");
   const offset = parseInt(page, 10) * 9;
   try {
     const items = await sequelize.query(`
