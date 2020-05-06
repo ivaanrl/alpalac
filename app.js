@@ -1,42 +1,42 @@
-const express = require('express');
-const cors = require('cors');
-const passport = require('passport');
-const session = require('express-session');
-const db = require('./models');
-//const { Pool } = require('pg');
-const sslRedirect = require('heroku-ssl-redirect');
+const express = require("express");
+const cors = require("cors");
+const passport = require("passport");
+const session = require("express-session");
+const db = require("./models");
+//const { Pool } = require("pg");
+const sslRedirect = require("heroku-ssl-redirect");
 
 const app = express();
 
 app.use(sslRedirect());
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: "http://localhost:3000",
   credentials: true,
 };
 
 //const pool = new Pool({
-//user: 'ivanrl',
-//password: '73442332',
-//  database: 'Alpalac',
+//  user: "ivanrl",
+//  password: "73442332",
+//  database: "alpalac",
 //});
 
 app.use(cors(corsOptions));
-app.options('*', cors());
+app.options("*", cors());
 
 app.use(express.json());
 
 app.use(
   session({
-    store: new (require('connect-pg-simple')(session))({
+    store: new (require("connect-pg-simple")(session))({
       //pool,
     }),
-    secret: 'oaksndlñsakosindg',
+    secret: "oaksndlñsakosindg",
     resave: false,
     saveUninitialized: false,
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
-      sameSite: 'none',
+      sameSite: "none",
       //secure: true,
     },
   })
@@ -45,27 +45,27 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./routes/itemsRoutes')(app);
-require('./routes/authRoutes')(app);
-require('./routes/orderRoutes')(app);
+require("./routes/itemsRoutes")(app);
+require("./routes/authRoutes")(app);
+require("./routes/orderRoutes")(app);
 //app.use('/api', require('./routes/authRoutes'));
 
 const PORT = process.env.PORT || 5000;
 
-if (process.env.NODE_ENV === 'production') {
-  const path = require('path');
+if (process.env.NODE_ENV === "production") {
+  const path = require("path");
   //Express will serve up production asses like main.js
   //or main.css files
   //app.use(express.static('client/build'));
-  app.use(express.static(path.resolve(__dirname, 'client/build')));
+  app.use(express.static(path.resolve(__dirname, "client/build")));
 
   //Express will serve up the index.html if it doesn't
   //recognize the route
   //app.get('*', (req, res) => {
   //  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   //});
-  app.get('*', function (req, res) {
-    res.sendFile(path.resolve(__dirname, 'client/build', 'index.html'));
+  app.get("*", function (req, res) {
+    res.sendFile(path.resolve(__dirname, "client/build", "index.html"));
   });
 }
 

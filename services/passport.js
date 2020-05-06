@@ -1,10 +1,9 @@
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const FacebookStrategy = require('passport-facebook');
-const keys = require('../config/keys');
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const FacebookStrategy = require("passport-facebook");
+const keys = require("../config/keys");
 
 passport.serializeUser((user, cb) => {
-  console.log('Serializeeeeeeeeeeeeeee:', user.id);
   cb(null, user.id);
 });
 
@@ -23,7 +22,7 @@ passport.deserializeUser(async (id, cb) => {
       phoneNumber: foundUser.phoneNumber,
       role: foundUser.role,
     };
-    console.log('deserialize', user);
+    console.log("deserialize", user);
     cb(null, user);
   } catch (error) {
     cb(null, null);
@@ -35,7 +34,7 @@ passport.use(
     {
       clientID: keys.GOOGLE_CLIENT_ID,
       clientSecret: keys.GOOGLE_CLIENT_SECRET,
-      callbackURL: '/api/auth/google/callback',
+      callbackURL: "/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, cb) => {
       try {
@@ -49,7 +48,7 @@ passport.use(
             id: profile.id,
             firstName: profile._json.given_name,
             lastName: profile._json.family_name,
-            role: 'user',
+            role: "user",
           });
         }
         cb(null, user);
@@ -60,7 +59,7 @@ passport.use(
   )
 );
 
-passport.use(
+/*passport.use(
   new FacebookStrategy(
     {
       clientID: keys.FACEBOOK_CLIENT_ID,
@@ -90,4 +89,4 @@ passport.use(
       }
     }
   )
-);
+);*/

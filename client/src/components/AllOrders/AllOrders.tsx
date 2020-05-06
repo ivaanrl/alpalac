@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   makeStyles,
   CircularProgress,
   createStyles,
   Theme,
-} from '@material-ui/core';
-import axios from '../../axios';
-import Order, { orderProps as orderInterface } from '../Order/Order';
-import InfiniteScroll from 'react-infinite-scroller';
+} from "@material-ui/core";
+import axios from "../../axios";
+import Order, { orderProps as orderInterface } from "../Order/Order";
+import InfiniteScroll from "react-infinite-scroller";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     mainContainer: {
-      marginTop: '9vh',
+      marginTop: "9vh",
     },
     orders: {
-      marginTop: '60px',
-      maxHeight: '60%',
-      overflow: 'hidden',
-      scrollbarWidth: 'none',
-      msOverflowStyle: 'none',
-      '&::-webkit-scrollbar': {
-        width: '0',
-        height: '0',
+      marginTop: "60px",
+      maxHeight: "60%",
+      overflow: "hidden",
+      scrollbarWidth: "none",
+      msOverflowStyle: "none",
+      "&::-webkit-scrollbar": {
+        width: "0",
+        height: "0",
       },
     },
     title: {
-      marginTop: '3vh',
-      fontSize: '36px',
-      fontWeight: 'bold',
-      paddingBottom: '-5px',
-      width: '95%',
-      margin: 'auto',
-      textAlign: 'left',
-      borderBottom: '1px solid #d9d4d4',
-      marginLeft: '5%',
-      [theme.breakpoints.up('sm')]: {
-        marginLeft: '30%',
-        width: '70%',
-        fontSize: '40px',
+      marginTop: "3vh",
+      fontSize: "36px",
+      fontWeight: "bold",
+      paddingBottom: "-5px",
+      width: "95%",
+      margin: "auto",
+      textAlign: "left",
+      borderBottom: "1px solid #d9d4d4",
+      marginLeft: "5%",
+      [theme.breakpoints.up("sm")]: {
+        marginLeft: "30%",
+        width: "70%",
+        fontSize: "40px",
       },
     },
   })
@@ -62,7 +62,7 @@ const AllOrders = () => {
 
   const getIncompleteOrders = async () => {
     const axiosResponse = await axios.get<allOrderInterface[]>(
-      '/orders/admin/all_orders/0'
+      "/orders/admin/all_orders/0"
     );
     if (axiosResponse.status === 200) {
       setOrders(axiosResponse.data);
@@ -71,7 +71,7 @@ const AllOrders = () => {
 
   const handleScroll = async () => {
     const receivedOrders = await axios.get<allOrderInterface[]>(
-      '/orders/admin/all_orders/' + page
+      "/orders/admin/all_orders/" + page
     );
     const newOrders = orders;
     receivedOrders.data.forEach((item: allOrderInterface) => {
@@ -104,6 +104,7 @@ const AllOrders = () => {
               lastname,
               createdAt,
               weight,
+              phoneNumber,
             } = order;
             return (
               <Order
@@ -115,6 +116,7 @@ const AllOrders = () => {
                 firstname={firstname}
                 lastname={lastname}
                 weight={weight}
+                phoneNumber={phoneNumber}
               />
             );
           })}
