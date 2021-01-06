@@ -24,7 +24,7 @@
     "@types/socket.io-client": "^1.4.32",
     "@types/superagent": "^4.1.7",
     "@types/yup": "^0.26.35",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cloudinary-react": "^1.4.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
